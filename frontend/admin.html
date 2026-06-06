@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BUMDES</title>
+
+    <!-- REMIX ICON -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+
+<body>
+    <input
+    type="hidden"
+    id="admin-id"
+>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- LOGO -->
+        <div class="logo-box">
+
+            <div class="logo-icon">
+                <i class="ri-government-line"></i>
+            </div>
+
+            <div class="logo-text">
+                <h2>BUMDES</h2>
+                <p>Sistem Monitoring</p>
+            </div>
+
+        </div>
+
+        <!-- MENU -->
+        <ul class="menu">
+
+            <li class="active">
+                <a href="index.html">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="bumdes.html">
+                    <i class="ri-building-line"></i>
+                    <span>BUMDES</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="wilayah.html">
+                    <i class="ri-map-pin-line"></i>
+                    <span>Wilayah</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="profil.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="export.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Export</span>
+                </a>
+            </li>
+
+            <li id="menu-admin">
+                <a href="admin.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Admin</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" id="logout-btn">
+                    <i class="ri-logout-box-r-line"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- BOTTOM -->
+        <div class="sidebar-bottom">
+
+            <div class="divider"></div>
+
+            <div class="bottom-item">
+                <i class="ri-settings-3-line"></i>
+                <span>Settings</span>
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- RIGHT SIDE -->
+    <div class="main-wrapper">
+
+        <!-- NAVBAR -->
+        <header class="navbar">
+
+            <div class="left-nav">
+
+                <button
+                    class="menu-btn"
+                    onclick="toggleSidebar()"
+                >
+                    <i class="ri-menu-line"></i>
+                </button>
+
+                <h3>User</h3>
+
+            </div>
+
+            <div class="right-nav">
+
+                <div class="nav-user">
+
+                    <div class="avatar">
+                        <i class="ri-user-3-line"></i>
+                    </div>
+
+                    <div class="user-info">
+                        <h4>Administrator</h4>
+                        <p>Super Admin</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- CONTENT -->
+        <main class="content">
+
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+
+                <div>
+                    <h1>Manajemen Petugas</h1>
+                    <p>Kelola akun admin dan petugas sistem</p>
+                </div>
+
+            </div>
+
+            <!-- CARD -->
+            <div class="card-grid">
+
+                <div class="dashboard-card blue">
+
+                    <div>
+                        <h3 id="total-petugas">0</h3>
+                        <p>Total Petugas</p>
+                    </div>
+
+                    <i class="ri-team-line"></i>
+
+                </div>
+
+            </div>
+
+            <!-- ACTION -->
+            <div class="action-bar">
+
+                <div class="left-action">
+
+                    <input
+                        type="text"
+                        id="search-petugas"
+                        placeholder="Cari Username..."
+                    >
+
+                </div>
+
+                <div class="right-action">
+
+                    <button
+                        class="btn primary"
+                        onclick="openAdminModal()"
+                    >
+                        <i class="ri-user-add-line"></i>
+                        Tambah Petugas
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-box">
+
+                <div class="table-header">
+                    Data Petugas
+                </div>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Terakhir Login</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="admin-table-body">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="modal" id="admin-modal">
+
+                <div class="modal-content small-modal">
+
+                    <div class="modal-header">
+
+                        <h3 id="modal-title">
+                            Tambah Petugas
+                        </h3>
+
+                        <button
+                            onclick="closeModal('admin-modal')"
+                        >
+                            ✕
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="form-group">
+
+                            <label>Username</label>
+
+                            <input
+                                type="text"
+                                id="admin-username"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Password</label>
+
+                            <input
+                                type="password"
+                                id="admin-password"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Role</label>
+
+                            <select id="admin-role">
+
+                                <option value="admin">
+                                    Admin
+                                </option>
+
+                                <option value="petugas">
+                                    Petugas
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button
+                            class="btn secondary"
+                            onclick="closeModal('admin-modal')"
+                        >
+                            Batal
+                        </button>
+
+                        <button
+                            class="btn primary"
+                            id="btn-save-admin"
+                        >
+                            Simpan
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+
+            <div>
+                © 2026 <b>BUMDES</b> - Sistem Monitoring Desa
+            </div>
+
+            <div>
+                Versi 1.0.0
+            </div>
+
+        </footer>
+
+    </div>
+
+</div>
+<script type="module" src="assets/js/admin/admin.js"></script>
+<script type="module">
+
+import {
+    logout,
+    isLogin
+} from "./assets/js/auth.js";
+
+/* CHECK LOGIN */
+if(!isLogin()){
+
+    window.location.replace(
+        "/login.html"
+    );
+}
+
+/* TOGGLE SIDEBAR */
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("hide");
+}
+
+window.toggleSidebar =
+    toggleSidebar;
+
+/* LOGOUT */
+const logoutBtn =
+    document.getElementById(
+        "logout-btn"
+    );
+
+logoutBtn.addEventListener(
+    "click",
+    function(e){
+
+        e.preventDefault();
+
+        const confirmLogout =
+            confirm(
+                "Apakah yakin ingin keluar?"
+            );
+
+        if(confirmLogout){
+
+            logout();
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>

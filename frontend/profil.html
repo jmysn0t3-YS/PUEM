@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BUMDES</title>
+
+    <!-- REMIX ICON -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/profil.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- LOGO -->
+        <div class="logo-box">
+
+            <div class="logo-icon">
+                <i class="ri-government-line"></i>
+            </div>
+
+            <div class="logo-text">
+                <h2>BUMDES</h2>
+                <p>Sistem Monitoring</p>
+            </div>
+
+        </div>
+
+        <!-- MENU -->
+        <ul class="menu">
+
+            <li class="active">
+                <a href="index.html">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="bumdes.html">
+                    <i class="ri-building-line"></i>
+                    <span>BUMDES</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="wilayah.html">
+                    <i class="ri-map-pin-line"></i>
+                    <span>Wilayah</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="profil.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="export.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Export</span>
+                </a>
+            </li>
+
+            <li id="menu-admin">
+                <a href="admin.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Admin</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" id="logout-btn">
+                    <i class="ri-logout-box-r-line"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- BOTTOM -->
+        <div class="sidebar-bottom">
+
+            <div class="divider"></div>
+
+            <div class="bottom-item">
+                <i class="ri-settings-3-line"></i>
+                <span>Settings</span>
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- RIGHT SIDE -->
+    <div class="main-wrapper">
+
+        <!-- NAVBAR -->
+        <header class="navbar">
+
+            <div class="left-nav">
+
+                <button
+                    class="menu-btn"
+                    onclick="toggleSidebar()"
+                >
+                    <i class="ri-menu-line"></i>
+                </button>
+
+                <h3>User</h3>
+
+            </div>
+
+            <div class="right-nav">
+
+                <div class="nav-user">
+
+                    <div class="avatar">
+                        <i class="ri-user-3-line"></i>
+                    </div>
+
+                    <div class="user-info">
+                        <h4>Administrator</h4>
+                        <p>Super Admin</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- CONTENT -->
+        <main class="content">
+
+            <div class="profile-container">
+
+                <div class="profile-header">
+
+                    <div class="profile-avatar">
+                        <i class="ri-user-3-line"></i>
+                    </div>
+
+                </div>
+
+                <div class="profile-section">
+
+                    <h3>Informasi Akun</h3>
+
+                    <div class="profile-info">
+
+                        <div class="info-item">
+                            <div class="info-label">
+                                Username
+                            </div>
+
+                            <div class="info-value" id="profile-username">
+                                -
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-label">
+                                Role
+                            </div>
+
+                            <div class="info-value" id="info-role">
+                                -   
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="profile-actions">
+
+                        <button class="btn-primary">
+                            Edit Username
+                        </button>
+
+                        <button class="btn-warning">
+                            Ganti Password
+                        </button>
+
+                    </div>
+                   
+                   
+                    <div class="profile-card-form hidden" id="profileCardForm">
+
+                        <div class="form-box">
+
+                            <div class="card-header">
+                                <h3 id="form-title">Edit Username</h3>
+                                <span class="close" id="closeForm">&times;</span>
+                            </div>
+
+
+
+                            <!-- FORM EDIT USERNAME -->
+                            <div class="form-section" id="edit-username-section">                                                           
+                                <label>Username Baru</label>
+                                <input type="text" id="new-username" placeholder="Masukkan username baru">
+                                <button class="btn-primary" id="save-username">
+                                    Simpan Username
+                                </button>
+                            </div>
+
+                            <!-- FORM GANTI PASSWORD -->
+                            <div class="form-section hidden" id="change-password-section">
+
+                                <!-- STEP 1 -->
+                                <div id="step-verify">
+                                    <label>Password Lama</label>
+                                    <input type="password" id="old-password">
+
+                                    <button class="btn-warning" id="verify-password">
+                                        Konfirmasi Password
+                                    </button>
+                                </div>
+
+                                <!-- STEP 2 -->
+                                <div id="step-new" class="hidden">
+                                    <label>Password Baru</label>
+                                    <input type="password" id="new-password">
+
+                                    <label>Konfirmasi Password</label>
+                                    <input type="password" id="confirm-password">
+
+                                    <button class="btn-primary" id="update-password">
+                                        Ubah Password
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+
+            <div>
+                © 2026 <b>BUMDES</b> - Sistem Monitoring Desa
+            </div>
+
+            <div>
+                Versi 1.0.0
+            </div>
+
+        </footer>
+
+    </div>
+
+</div>
+
+<div id="toast" class="toast"></div> 
+
+
+<script type="module" src="assets/js/profil/profil.js"></script>
+<script type="module">
+
+import {
+    logout,
+    isLogin
+} from "./assets/js/auth.js";
+
+/* CHECK LOGIN */
+if(!isLogin()){
+
+    window.location.replace(
+        "/login.html"
+    );
+}
+
+/* TOGGLE SIDEBAR */
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("hide");
+}
+
+window.toggleSidebar =
+    toggleSidebar;
+
+/* LOGOUT */
+const logoutBtn =
+    document.getElementById(
+        "logout-btn"
+    );
+
+logoutBtn.addEventListener(
+    "click",
+    function(e){
+
+        e.preventDefault();
+
+        const confirmLogout =
+            confirm(
+                "Apakah yakin ingin keluar?"
+            );
+
+        if(confirmLogout){
+
+            logout();
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>

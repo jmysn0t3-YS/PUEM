@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BUMDES</title>
+
+    <!-- REMIX ICON -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/export.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- LOGO -->
+        <div class="logo-box">
+
+            <div class="logo-icon">
+                <i class="ri-government-line"></i>
+            </div>
+
+            <div class="logo-text">
+                <h2>BUMDES</h2>
+                <p>Sistem Monitoring</p>
+            </div>
+
+        </div>
+
+        <!-- MENU -->
+        <ul class="menu">
+
+            <li class="active">
+                <a href="index.html">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="bumdes.html">
+                    <i class="ri-building-line"></i>
+                    <span>BUMDES</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="wilayah.html">
+                    <i class="ri-map-pin-line"></i>
+                    <span>Wilayah</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="profil.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="export.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Export</span>
+                </a>
+            </li>
+
+            <li id="menu-admin">
+                <a href="admin.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Admin</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" id="logout-btn">
+                    <i class="ri-logout-box-r-line"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- BOTTOM -->
+        <div class="sidebar-bottom">
+
+            <div class="divider"></div>
+
+            <div class="bottom-item">
+                <i class="ri-settings-3-line"></i>
+                <span>Settings</span>
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- RIGHT SIDE -->
+    <div class="main-wrapper">
+
+        <!-- NAVBAR -->
+        <header class="navbar">
+
+            <div class="left-nav">
+
+                <button
+                    class="menu-btn"
+                    onclick="toggleSidebar()"
+                >
+                    <i class="ri-menu-line"></i>
+                </button>
+
+                <h3>User</h3>
+
+            </div>
+
+            <div class="right-nav">
+
+                <div class="nav-user">
+
+                    <div class="avatar">
+                        <i class="ri-user-3-line"></i>
+                    </div>
+
+                    <div class="user-info">
+                        <h4>Administrator</h4>
+                        <p>Super Admin</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- CONTENT -->
+        <main class="content">
+
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Sistem monitoring data BUMDES</p>
+                </div>
+
+                <!-- BUTTON EXPORT -->
+                <button id="btn-export" class="btn-export">
+                    <i class="ri-file-excel-2-line"></i>
+                    Download Excel
+                </button>
+
+            </div>
+
+            <!-- TABLE PREVIEW -->
+            <div class="table-box table-scroll">
+
+                <div class="table-header">
+                    Preview Data BUMDES
+                </div>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama BUMDES</th>
+                            <th>Desa</th>
+                            <th>Kecamatan</th>
+                            <th>Alamat</th>
+                            <th>No HP</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Peringkat</th>
+                            <th>Sektor</th>
+                            <th>Jenis</th>
+
+                            <th>No Perdes</th>
+                            <th>Tgl Perdes</th>
+                            <th>No AHU</th>
+                            <th>Tgl AHU</th>
+
+                            <th>Direktur</th>
+                            <th>No Direktur</th>
+                            <th>Sekretaris</th>
+                            <th>No Sekretaris</th>
+                            <th>Bendahara</th>
+                            <th>No Bendahara</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="export-table-body">
+                        <!-- DATA DARI JS -->
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+
+            <div>
+                © 2026 <b>BUMDES</b> - Sistem Monitoring Desa
+            </div>
+
+            <div>
+                Versi 1.0.0
+            </div>
+
+        </footer>
+
+    </div>
+
+</div>
+<script type="module" src="assets/js/export/export.js"></script>
+
+<script type="module">
+
+import {
+    logout,
+    isLogin
+} from "./assets/js/auth.js";
+
+/* CHECK LOGIN */
+if(!isLogin()){
+
+    window.location.replace(
+        "/login.html"
+    );
+}
+
+/* TOGGLE SIDEBAR */
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("hide");
+}
+
+window.toggleSidebar =
+    toggleSidebar;
+
+/* LOGOUT */
+const logoutBtn =
+    document.getElementById(
+        "logout-btn"
+    );
+
+logoutBtn.addEventListener(
+    "click",
+    function(e){
+
+        e.preventDefault();
+
+        const confirmLogout =
+            confirm(
+                "Apakah yakin ingin keluar?"
+            );
+
+        if(confirmLogout){
+
+            logout();
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>

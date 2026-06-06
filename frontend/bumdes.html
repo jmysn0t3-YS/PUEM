@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BUMDES</title>
+
+    <!-- REMIX ICON -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+        rel="stylesheet"
+    >
+
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/bumdes.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- LOGO -->
+        <div class="logo-box">
+
+            <div class="logo-icon">
+                <i class="ri-government-line"></i>
+            </div>
+
+            <div class="logo-text">
+                <h2>BUMDES</h2>
+                <p>Sistem Monitoring</p>
+            </div>
+
+        </div>
+
+        <!-- MENU -->
+        <ul class="menu">
+
+            <li>
+                <a href="index.html">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="active"></liclass>
+                <a href="bumdes.html">
+                    <i class="ri-building-line"></i>
+                    <span>BUMDES</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="wilayah.html">
+                    <i class="ri-map-pin-line"></i>
+                    <span>Wilayah</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="profil.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="export.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Export</span>
+                </a>
+            </li>
+
+            <li id="menu-admin">
+                <a href="admin.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Admin</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" id="logout-btn">
+                    <i class="ri-logout-box-r-line"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- BOTTOM -->
+        <div class="sidebar-bottom">
+
+            <div class="divider"></div>
+
+            <div class="bottom-item">
+                <i class="ri-settings-3-line"></i>
+                <span>Settings</span>
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- RIGHT SIDE -->
+    <div class="main-wrapper">
+
+        <!-- NAVBAR -->
+        <header class="navbar">
+
+            <div class="left-nav">
+
+                <button
+                    class="menu-btn"
+                    onclick="toggleSidebar()"
+                >
+                    <i class="ri-menu-line"></i>
+                </button>
+
+                <h3>BUMDesa</h3>
+
+            </div>
+
+            <div class="right-nav">
+
+                <div class="nav-user">
+
+                    <div class="avatar">
+                        <i class="ri-user-3-line"></i>
+                    </div>
+
+                    <div class="user-info">
+                        <h4>Administrator</h4>
+                        <p>Super Admin</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- CONTENT -->
+        <main class="content">
+
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+
+                <div>
+                    <h1>BUMDesa</h1>
+                    <p>Sistem monitoring data Badan Usaha Milik Desa</p>
+                </div>
+
+            </div>
+
+            <!-- CARD -->
+            <div class="card-grid">
+
+                <div class="dashboard-card blue">
+
+                    <div>
+                        <h3 id="total-bumdes">0</h3>
+                        <p>BUMDES</p>
+                    </div>
+
+                    <i class="ri-building-line"></i>
+
+                </div>
+
+            </div>
+
+            <!-- ACTION -->
+            <div class="action-bar">
+
+                <div class="left-action">
+
+                    <input
+                        type="text"
+                        id="search-bumdes"
+                        placeholder="Cari BUMDES..."
+                    >
+
+                </div>
+
+                <div class="right-action">
+
+                    <select id="filter-kecamatan">
+                        <option value="">
+                            Semua Kecamatan
+                        </option>
+                    </select>
+
+                    <button
+                        class="btn primary"
+                        onclick="openBumdesModal()"
+                    >
+                        <i class="ri-add-line"></i>
+                        Tambah BUMDES
+                    </button>
+
+                    <!-- MODAL DETAIL -->
+                    <div class="modal" id="detail-modal">
+
+                        <div class="modal-content detail-modal">
+
+                            <div class="modal-header">
+
+                                <h3>Detail BUMDES</h3>
+
+                                <button
+                                    onclick="closeModal('detail-modal')"
+                                >
+                                    ✕
+                                </button>
+                                
+
+                            </div>
+
+                            <div
+                                class="modal-body"
+                                id="detail-content"
+                            >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-box">
+
+                <!-- MODAL -->
+                <div class="modal" id="bumdes-modal">
+
+                    <div class="modal-content form-modal">
+
+                        <div class="modal-header">
+
+                            <h3 class="form-title-et">
+                                Tambah Data BUMDES
+                            </h3>
+
+
+                            <button
+                                onclick="closeModal('bumdes-modal')"
+                            >
+                                ✕
+                            </button>
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <!-- INFORMASI -->
+                            <div class="detail-card">
+
+                                <h4>Informasi BUMDES</h4>
+
+                                <div class="detail-grid">
+
+                                    <div class="form-group">
+                                        <label>Nama BUMDES</label>
+                                        <input type="text" id="nama-bumdes">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Desa</label>
+
+                                        <select id="desa-bumdes">
+                                            <option value="">
+                                                Pilih Desa
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Alamat</label>
+                                        <textarea id="alamat-bumdes"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>No HP</label>
+                                        <input type="text" id="nohp-bumdes">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" id="email-bumdes">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Status</label>
+
+                                        <select id="status-bumdes">
+                                            <option value="">
+                                                Pilih Status
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Peringkat</label>
+
+                                        <select id="peringkat-bumdes">
+                                            <option value="">
+                                                Pilih Peringkat
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- SEKTOR -->
+                            <div class="section-title">
+
+                                <h4>Sektor Usaha</h4>
+
+                                <button
+                                    type="button"
+                                    class="btn-add-mini"
+                                    onclick="openSektorModal()"
+                                >
+                                    <i class="ri-add-line"></i>
+                                </button>
+
+                            </div>
+
+                            <select
+                                id="sektor-bumdes"
+                                multiple
+                            ></select>
+                            
+                            <!-- JENIS -->
+                            <div class="section-title">
+
+                                <h4>Jenis Usaha</h4>
+
+                                <button
+                                    type="button"
+                                    class="btn-add-mini"
+                                    onclick="openJenisModal()"
+                                >
+                                    <i class="ri-add-line"></i>
+                                </button>
+
+                            </div>
+
+                            <select
+                                id="jenis-bumdes"
+                                multiple
+                            ></select>
+
+                            <!-- MODAL TAMBAH JENIS -->
+                            <div class="modal" id="modal-tambah-jenis">
+
+                                <div class="modal-content small-modal">
+
+                                    <div class="modal-header">
+
+                                        <h3>Tambah Jenis Usaha</h3>
+
+                                        <button
+                                            onclick="closeModal('modal-tambah-jenis')"
+                                        >
+                                            ✕
+                                        </button>
+
+                                    </div>
+
+                                    <div class="modal-body">
+
+                                        <!-- PILIH SEKTOR -->
+                                        <div class="form-group">
+
+                                            <label>Sektor Usaha</label>
+
+                                            <select id="jenis-sektor">
+                                                <option value="">
+                                                    Pilih Sektor
+                                                </option>
+                                            </select>
+
+                                        </div>
+
+                                        <!-- NAMA JENIS -->
+                                        <div class="form-group">
+
+                                            <label>Nama Jenis Usaha</label>
+
+                                            <input
+                                                type="text"
+                                                id="input-jenis"
+                                                placeholder="Contoh: Budidaya Lele"
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+
+                                        <button
+                                            class="btn secondary"
+                                            onclick="closeModal('modal-tambah-jenis')"
+                                        >
+                                            Batal
+                                        </button>
+
+                                        <button
+                                            class="btn primary"
+                                            onclick="saveJenisBaru()"
+                                        >
+                                            Simpan
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- MODAL TAMBAH SEKTOR -->
+                            <div class="modal" id="modal-tambah-sektor">
+
+                                <div class="modal-content small-modal">
+
+                                    <div class="modal-header">
+
+                                        <h3>Tambah Sektor</h3>
+
+                                        <button
+                                            onclick="closeModal('modal-tambah-sektor')"
+                                        >
+                                            ✕
+                                        </button>
+
+                                    </div>
+
+                                    <div class="modal-body">
+
+                                        <input
+                                            type="text"
+                                            id="input-sektor"
+                                            placeholder="Contoh: Peternakan"
+                                        >
+
+                                    </div>
+
+                                    <div class="modal-footer">
+
+                                        <button
+                                            class="btn secondary"
+                                            onclick="closeModal('modal-tambah-sektor')"
+                                        >
+                                            Batal
+                                        </button>
+
+                                        <button
+                                            class="btn primary"
+                                            onclick="saveSektorBaru()"
+                                        >
+                                            Simpan
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- LEGALITAS -->
+                            <div class="detail-card">
+
+                                <h4>Legalitas</h4>
+
+                                <div class="detail-grid">
+
+                                    <div class="form-group">
+                                        <label>Nomor PERDES</label>
+                                        <input type="text" id="nomor-perdes">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Tanggal PERDES</label>
+                                        <input type="date" id="tanggal-perdes">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Nomor AHU</label>
+                                        <input type="text" id="nomor-ahu">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Tanggal AHU</label>
+                                        <input type="date" id="tanggal-ahu">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- PETUGAS -->
+                            <div class="detail-card">
+
+                                <h4>Petugas</h4>
+
+                                <div class="detail-grid">
+
+                                    <div class="form-group">
+                                        <label>Penasihat</label>
+                                        <input type="text" id="penasihat">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>No Penasihat</label>
+                                        <input type="text" id="no-penasihat">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Pengawas</label>
+                                        <input type="text" id="pengawas">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>No Pengawas</label>
+                                        <input type="text" id="no-pengawas">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Direktur</label>
+                                        <input type="text" id="direktur">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>No Direktur</label>
+                                        <input type="text" id="no-direktur">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Sekretaris</label>
+                                        <input type="text" id="sekretaris">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>No Sekretaris</label>
+                                        <input type="text" id="no-sekretaris">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Bendahara</label>
+                                        <input type="text" id="bendahara">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>No Bendahara</label>
+                                        <input type="text" id="no-bendahara">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button
+                                class="btn secondary"
+                                onclick="closeModal('bumdes-modal')"
+                            >
+                                Batal
+                            </button>
+
+                            <button
+                                class="btn primary"
+                                 id="btn-save-bumdes"
+                                onclick="saveBumdes()"
+                            >
+                                Simpan
+                            </button>
+                            
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="table-header">
+                    Data BUMDES
+                </div>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Desa</th>
+                            <th>Kecamatan</th>
+                            <th>Status</th>
+                            <th>Sektor</th>
+                            <th>Jenis</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="bumdes-table-body">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+
+            <div>
+                © 2026 <b>BUMDES</b> - Sistem Monitoring Desa
+            </div>
+
+            <div>
+                Versi 1.0.0
+            </div>
+
+        </footer>
+
+    </div>
+
+</div>
+<!-- TOM SELECT -->
+<script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+<script type="module" src="assets/js/bumdes/bumdes.js"></script>
+
+<script type="module">
+
+import {
+    logout,
+    isLogin
+} from "./assets/js/auth.js";
+
+/* CHECK LOGIN */
+if(!isLogin()){
+
+    window.location.replace(
+        "/login.html"
+    );
+}
+
+/* TOGGLE SIDEBAR */
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("hide");
+}
+
+window.toggleSidebar =
+    toggleSidebar;
+
+/* LOGOUT */
+const logoutBtn =
+    document.getElementById(
+        "logout-btn"
+    );
+
+logoutBtn.addEventListener(
+    "click",
+    function(e){
+
+        e.preventDefault();
+
+        const confirmLogout =
+            confirm(
+                "Apakah yakin ingin keluar?"
+            );
+
+        if(confirmLogout){
+
+            logout();
+        }
+    }
+);
+
+</script>
+<div id="toast-container"></div>
+</body>
+</html>

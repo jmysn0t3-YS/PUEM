@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BUMDES</title>
+
+    <!-- REMIX ICON -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/wilayah.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- LOGO -->
+        <div class="logo-box">
+
+            <div class="logo-icon">
+                <i class="ri-government-line"></i>
+            </div>
+
+            <div class="logo-text">
+                <h2>BUMDES</h2>
+                <p>Sistem Monitoring</p>
+            </div>
+
+        </div>
+
+        <!-- MENU -->
+        <ul class="menu">
+
+            <li class="active">
+                <a href="index.html">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="bumdes.html">
+                    <i class="ri-building-line"></i>
+                    <span>BUMDES</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="wilayah.html">
+                    <i class="ri-map-pin-line"></i>
+                    <span>Wilayah</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="profil.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="export.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Export</span>
+                </a>
+            </li>
+
+            <li id="menu-admin">
+                <a href="admin.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Admin</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" id="logout-btn">
+                    <i class="ri-logout-box-r-line"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- BOTTOM -->
+        <div class="sidebar-bottom">
+
+            <div class="divider"></div>
+
+            <div class="bottom-item">
+                <i class="ri-settings-3-line"></i>
+                <span>Settings</span>
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- RIGHT SIDE -->
+    <div class="main-wrapper">
+
+        <!-- NAVBAR -->
+        <header class="navbar">
+
+            <div class="left-nav">
+
+                <button
+                    class="menu-btn"
+                    onclick="toggleSidebar()"
+                >
+                    <i class="ri-menu-line"></i>
+                </button>
+
+                <h3>Dashboard</h3>
+
+            </div>
+
+            <div class="right-nav">
+
+                <div class="nav-user">
+
+                    <div class="avatar">
+                        <i class="ri-user-3-line"></i>
+                    </div>
+
+                    <div class="user-info">
+                        <h4>Administrator</h4>
+                        <p>Super Admin</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- CONTENT -->
+        <main class="content">
+
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+                <div>
+                    <h1>Wilayah</h1>
+                    <p>Data Kecamatan dan Desa yang ada di Kabupaten Malang</p>
+                </div>
+
+            </div>
+
+            <!-- CARD -->
+            <div class="card-grid">
+
+                <div class="dashboard-card orange">
+
+                    <div>
+                        <h3 id="total-kecamatan">0</h3>
+                        <p>KECAMATAN</p>
+                    </div>
+
+                    <i class="ri-map-line"></i>
+
+                </div>
+
+                <div class="dashboard-card green">
+
+                    <div>
+                        <h3 id="total-desa">0</h3>
+                        <p>DESA</p>
+                    </div>
+
+                    <i class="ri-home-4-line"></i>
+
+                </div>
+
+                
+
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-box">
+
+                <!-- HEADER -->
+                <div class="table-header-flex">
+                    <div class="table-header">
+                        Data Kecamatan dan Desa
+                    </div>
+                    
+                    <div class="form-group"
+                        id="filter-box"
+                        style="margin-bottom:10px;">
+
+                        <select id="filter-kecamatan"
+                            onchange="filterByKecamatan()">
+                            <option value="">Semua Kecamatan</option>
+                        </select>
+
+                    </div>
+
+                    <div class="table-action">
+
+                        <button
+                            class="btn primary"
+                            onclick="openKecamatanModal()"
+                        >
+                            <i class="ri-add-line"></i>
+                            Tambah Kecamatan
+                        </button>
+
+                        <button
+                            class="btn info"
+                            onclick="openManageKecamatanModal()"
+                        >
+                            <i class="ri-settings-3-line"></i>
+                            Kelola Kecamatan
+                        </button>
+
+                        <button
+                            class="btn success"
+                            onclick="openDesaModal()"
+                        >
+                            <i class="ri-home-4-line"></i>
+                            Tambah Desa
+                        </button>
+
+                    </div>
+                    
+
+                </div>
+
+                 <table>
+
+        <thead id="table-head">
+            <!-- dinamis -->
+        </thead>
+
+        <tbody id="wilayah-body"></tbody>
+
+    </table>
+
+            </div>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+
+            <div>
+                © 2026 <b>BUMDES</b> - Sistem Monitoring Desa
+            </div>
+
+            <div>
+                Versi 1.0.0
+            </div>
+
+        </footer>
+
+    </div>
+
+</div>
+
+<!-- MODAL KECAMATAN -->
+<div class="modal" id="kecamatan-modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h3>Tambah Kecamatan</h3>
+
+            <button
+                onclick="closeModal('kecamatan-modal')">
+                ×
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="form-group">
+                <label>Nama Kecamatan</label>
+
+                <input
+                    type="text"
+                    id="nama-kecamatan"
+                    placeholder="Masukkan nama kecamatan"
+                >
+            </div>
+
+            <button
+                class="btn primary full"
+                onclick="saveKecamatan()"
+            >
+                Simpan
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL DESA -->
+<div class="modal" id="desa-modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h3>Tambah Desa</h3>
+
+            <button onclick="closeModal('desa-modal')">
+                <i class="ri-close-line"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="form-group">
+                <label>Pilih Kecamatan</label>
+
+                <select id="desa-kecamatan">
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Nama Desa</label>
+
+                <input
+                    type="text"
+                    id="nama-desa"
+                    placeholder="Masukkan nama desa"
+                >
+            </div>
+
+            <button
+                class="btn success full"
+                onclick="saveDesa()"
+            >
+                Simpan
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- kelola kecamatan -->
+<div class="modal" id="manage-kecamatan-modal">
+
+    <div class="modal-content modal-lg">
+
+        <div class="modal-header">
+            <h3>Kelola Kecamatan</h3>
+
+            <button
+                onclick="closeModal('manage-kecamatan-modal')">
+                ×
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Kecamatan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody id="kecamatan-manage-body">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<div id="toast" class="toast"></div>
+
+<!-- load -->
+<script type="module" src="assets/js/wilayah/wilayah.js"></script>
+ 
+
+<script type="module">
+
+import {
+    logout,
+    isLogin
+} from "./assets/js/auth.js";
+
+/* CHECK LOGIN */
+if(!isLogin()){
+
+    window.location.replace(
+        "/login.html"
+    );
+}
+
+/* TOGGLE SIDEBAR */
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("hide");
+}
+
+window.toggleSidebar =
+    toggleSidebar;
+
+/* LOGOUT */
+const logoutBtn =
+    document.getElementById(
+        "logout-btn"
+    );
+
+logoutBtn.addEventListener(
+    "click",
+    function(e){
+
+        e.preventDefault();
+
+        const confirmLogout =
+            confirm(
+                "Apakah yakin ingin keluar?"
+            );
+
+        if(confirmLogout){
+
+            logout();
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>

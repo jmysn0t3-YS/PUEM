@@ -1,0 +1,33 @@
+.btn-export{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 15px;
+    background: #16a34a;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-export:hover{
+    background: #12813a;
+    transform: translateY(-2px);
+}
+
+.table-scroll {
+    overflow-x: auto;
+}
+
+table {
+    min-width: 1800px; /* penting karena kolom kamu banyak */
+    border-collapse: collapse;
+}
+
+th, td {
+    white-space: nowrap;
+    padding: 10px;
+}

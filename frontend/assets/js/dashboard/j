@@ -1,0 +1,32 @@
+import { apiFetch } from "../api.js";
+
+const totalBumdes = document.getElementById("total-bumdes");
+const totalDesa = document.getElementById("total-desa");
+const totalKecamatan = document.getElementById("total-kecamatan");
+
+async function loadDashboard() {
+    try {
+        const [bumdes, desa, kecamatan] = await Promise.all([
+            apiFetch("/bumdes/"),
+            apiFetch("/wilayah/desa/"),
+            apiFetch("/wilayah/kecamatan/")
+        ]);
+
+        const bumdesData = bumdes.results || bumdes;
+        const desaData = desa.results || desa;
+        const kecData = kecamatan.results || kecamatan;
+
+        totalBumdes.textContent = bumdesData.length;
+        totalDesa.textContent = desaData.length;
+        totalKecamatan.textContent = kecData.length;
+
+    } catch (err) {
+        console.error("Dashboard error:", err);
+
+        totalBumdes.textContent = 0;
+        totalDesa.textContent = 0;
+        totalKecamatan.textContent = 0;
+    }
+}
+
+loadDashboard();

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PUEM Dashboard</title>
+
+    <!-- REMIX ICON -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- LOGO -->
+        <div class="logo-box">
+
+            <div class="logo-icon">
+                <i class="ri-government-line"></i>
+            </div>
+
+            <div class="logo-text">
+                <h2>BUMDES</h2>
+                <p>Sistem Monitoring</p>
+            </div>
+
+        </div>
+
+        <!-- MENU -->
+        <ul class="menu">
+
+            <li class="active">
+                <a href="index.html">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="bumdes.html">
+                    <i class="ri-building-line"></i>
+                    <span>BUMDES</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="wilayah.html">
+                    <i class="ri-map-pin-line"></i>
+                    <span>Wilayah</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="profil.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="export.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Export</span>
+                </a>
+            </li>
+
+            <li id="menu-admin">
+                <a href="admin.html">
+                    <i class="ri-user-3-line"></i>
+                    <span>Admin</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" id="logout-btn">
+                    <i class="ri-logout-box-r-line"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- BOTTOM -->
+        <div class="sidebar-bottom">
+
+            <div class="divider"></div>
+
+            <div class="bottom-item">
+                <i class="ri-settings-3-line"></i>
+                <span>Settings</span>
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main-wrapper">
+
+        <!-- NAVBAR -->
+        <header class="navbar">
+
+            <div class="left-nav">
+
+                <button
+                    class="menu-btn"
+                    onclick="toggleSidebar()"
+                >
+                    <i class="ri-menu-line"></i>
+                </button>
+
+                <h3>Dashboard Monitoring</h3>
+
+            </div>
+
+        </header>
+
+        <!-- CONTENT -->
+        <main class="content">
+
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+
+                <div>
+                    <h1>Dashboard PUEM</h1>
+                    <p>
+                        Sistem Monitoring Pemerintahan Desa & BUMDES
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- =========================
+                STATISTIK CARD
+            ========================= -->
+            <div class="stats-grid">
+
+                <!-- TOTAL BUMDES -->
+                <div class="stat-card blue">
+
+                    <div>
+                        <h3 id="total-bumdes">0</h3>
+                        <p>Total BUMDES</p>
+                    </div>
+
+                    <i class="ri-building-line"></i>
+
+                </div>
+
+                <!-- TOTAL DESA -->
+                <div class="stat-card green">
+
+                    <div>
+                        <h3 id="total-desa">0</h3>
+                        <p>Total Desa</p>
+                    </div>
+
+                    <i class="ri-home-4-line"></i>
+
+                </div>
+
+                <!-- TOTAL KECAMATAN -->
+                <div class="stat-card orange">
+
+                    <div>
+                        <h3 id="total-kecamatan">0</h3>
+                        <p>Total Kecamatan</p>
+                    </div>
+
+                    <i class="ri-map-pin-line"></i>
+
+                </div>
+
+            </div>
+
+
+              <!-- =========================
+                row 
+            ========================= -->
+            <div class="dashboard-row">
+
+                <!-- PIE CHART -->
+                <div class="chart-box flex-2">
+
+                    <h3>Peringkat BUMDES</h3>
+
+                    <div class="chart-layout">
+
+                        <div class="chart-canvas">
+                            <canvas id="peringkatChart"></canvas>
+                        </div>
+
+                        <div class="chart-legend">
+
+                            <!-- MAJU -->
+                            <div class="legend-item">
+                                <div class="legend-left">
+                                    <span class="legend-color maju"></span>
+                                    <p>Maju</p>
+                                </div>
+
+                                <span
+                                    class="legend-total"
+                                    id="maju-total"
+                                >
+                                    0
+                                </span>
+                            </div>
+
+                            <!-- BERKEMBANG -->
+                            <div class="legend-item">
+                                <div class="legend-left">
+                                    <span class="legend-color berkembang"></span>
+                                    <p>Berkembang</p>
+                                </div>
+
+                                <span
+                                    class="legend-total"
+                                    id="berkembang-total"
+                                >
+                                    0
+                                </span>
+                            </div>
+
+                            <!-- PEMULA -->
+                            <div class="legend-item">
+                                <div class="legend-left">
+                                    <span class="legend-color pemula"></span>
+                                    <p>Pemula</p>
+                                </div>
+
+                                <span
+                                    class="legend-total"
+                                    id="pemula-total"
+                                >
+                                    0
+                                </span>
+                            </div>
+
+                            <!-- PERINTIS -->
+                            <div class="legend-item">
+                                <div class="legend-left">
+                                    <span class="legend-color perintis"></span>
+                                    <p>Perintis</p>
+                                </div>
+
+                                <span
+                                    class="legend-total"
+                                    id="perintis-total"
+                                >
+                                    0
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- AKTIVITAS -->
+                <div class="activity-box">
+
+                    <div class="activity-header">
+                        <h3>Aktivitas Terbaru</h3>
+                    </div>
+
+                    <div
+                        class="activity-list"
+                        id="activity-list"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+            
+
+             <!-- Persebaran BUMDES -->
+            <div class="chart-box">
+                <h3>Jumlah BUMDES per Kecamatan</h3>
+
+                <div class="bar-chart-wrapper">
+                    <canvas id="kecamatanChart"></canvas>
+                </div>
+            </div>
+
+            <br>
+            <!-- =========================
+                Alert 
+            ========================= -->
+            <section class="alert-section">
+
+                <div class="section-header">
+                    <h3>
+                        <i class="ri-error-warning-line"></i>
+                        Data Belum Lengkap
+                    </h3><br>
+                </div>
+
+                <div
+                    class="alert-list"
+                    id="alert-list"
+                >
+
+                </div>
+
+            </section>
+
+        </main>
+        <!-- FOOTER -->
+        <footer class="footer">
+
+            <div>
+                © 2026 <b>PUEM</b> - Sistem Monitoring Desa
+            </div>
+
+            <div>
+                Versi 2.0.0
+            </div>
+
+        </footer>
+
+    </div>
+
+</div>
+
+<script type="module" src="assets/js/dashboard/dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+
+<script type="module">
+
+import {
+    logout,
+    isLogin
+} from "./assets/js/auth.js";
+
+/* CHECK LOGIN */
+if(!isLogin()){
+
+    window.location.replace(
+        "/login.html"
+    );
+}
+
+/* TOGGLE SIDEBAR */
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("hide");
+}
+
+window.toggleSidebar =
+    toggleSidebar;
+
+/* LOGOUT */
+const logoutBtn =
+    document.getElementById(
+        "logout-btn"
+    );
+
+logoutBtn.addEventListener(
+    "click",
+    function(e){
+
+        e.preventDefault();
+
+        const confirmLogout =
+            confirm(
+                "Apakah yakin ingin keluar?"
+            );
+
+        if(confirmLogout){
+
+            logout();
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>
