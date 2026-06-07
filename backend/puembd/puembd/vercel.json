@@ -1,14 +1,14 @@
 {
-    "builds": [
-        {
-            "src": "puembd/wsgi.py",
-            "use": "@vercel/python"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "puembd/wsgi.py"
-        }
-    ]
-}
+  "builds": [
+    {
+      "src": "puembd/puembd/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "puembd/puembd/wsgi.py"
+    }
+  ]
+}    
