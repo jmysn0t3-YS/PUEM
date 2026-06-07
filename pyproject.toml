@@ -1,2 +1,0 @@
-[tool.vercel]
-entrypoint = "backend.puembd.puembd.wsgi:application"
