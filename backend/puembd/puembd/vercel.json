@@ -1,14 +1,9 @@
 {
   "builds": [
     {
-      "src": "puembd/puembd/wsgi.py",
+      "src": "manage.py",
       "use": "@vercel/python"
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "puembd/puembd/wsgi.py"
-    }
-  ]
-}    
+  "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+}
