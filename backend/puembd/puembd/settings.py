@@ -28,7 +28,8 @@ DEBUG = False
 ALLOWED_HOSTS = [
     ".vercel.app",
     "localhost",
-    "127.0.0.1"
+    "127.0.0.1",
+    "*"
 ]
 
 
@@ -140,7 +141,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 #jwt
 REST_FRAMEWORK = {
