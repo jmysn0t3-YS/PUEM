@@ -8,76 +8,60 @@
     <link rel="stylesheet" href="assets/css/login.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
 </head>
-
     <!-- TOAST -->
     <div id="toast"></div>
-
+    <!-- Body -->
     <body class="login-page">
 
-        <div class="login-container">
+        <div id="toast"></div>
 
-            <!-- KIRI -->
-            <div class="login-left">
-                <img src="assets/img/icon-login.png" alt="Logo">
-            </div>
+        <div class="overlay">
 
-            <!-- KANAN -->
-            <div class="login-right">
+            <div class="login-box"> 
 
-                <div class="login-box">
-                      <!-- ICON ATAS -->
-                    <div class="login-icon">
-                        <i class="ri-store-line"></i>
+                <h2>LOGIN BUMDES</h2>
+
+                <form id="login-form">
+
+                    <div class="input-group">
+                        <i class="ri-user-line"></i>
+
+                        <input
+                            id="username"
+                            type="text"
+                            placeholder="Username"
+                        >
                     </div>
 
-                    <h2>Login Bumdes</h2>
+                    <div class="input-group">
 
-                    <form id="login-form">
+                        <i class="ri-lock-line"></i>
 
-                        <!-- USERNAME -->
-                        <div class="input-group">
+                        <input
+                            id="password"
+                            type="password"
+                            placeholder="Password"
+                        >
 
-                            <i class="ri-user-line"></i>
+                        <i
+                            id="toggle-password"
+                            class="ri-eye-off-line password-toggle"
+                        ></i>
 
-                            <input
-                                id="username"
-                                type="text"
-                                placeholder="Username"
-                            >
-
-                        </div>
-
-                        <!-- PASSWORD -->
-                        <div class="input-group">
-
-                            <i class="ri-lock-line"></i>
-
-                            <input
-                                id="password"
-                                type="password"
-                                placeholder="Password"
-                            >
-
-                        </div>
-
-                        <!-- BUTTON -->
-                        <button type="submit">
-                            Login
-                        </button>
-
-                    </form>
-                    <!-- FOOTER -->
-                    <div class="login-footer">
-                        <p>© 2026 Bumdes Desa | Powered by PKL/UAS</p>
                     </div>
 
-                </div>
+                    <button type="submit">
+                        Login
+                    </button>
+
+                </form>
 
             </div>
 
         </div>
+
         <script type="module" src="assets/js/login/login.js"></script>
         <script type="module" src="assets/js/login/toast.js"></script>
-    
+
     </body>
 </html>

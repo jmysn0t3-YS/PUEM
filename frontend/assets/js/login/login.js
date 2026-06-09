@@ -4,71 +4,82 @@ import {
     isLogin
 } from "../auth.js";
 
-/* SUDAH LOGIN */
-if(isLogin()){
-
-    window.location.replace(
-        "/index.html"
-    );
+/* ======================
+   REDIRECT JIKA SUDAH LOGIN
+====================== */
+if (isLogin()) {
+    window.location.replace("/index.html");
 }
 
-const form =
-    document.getElementById(
-        "login-form"
-    );
+/* ======================
+   ELEMENT
+====================== */
+const form = document.getElementById("login-form");
+const button = form.querySelector("button");
 
-const button =
-    form.querySelector("button");
+const usernameInput =
+    document.getElementById("username");
 
-/* TOAST */
-function showToast(message,type){
+const passwordInput =
+    document.getElementById("password");
 
-    const toast =
-        document.getElementById(
-            "toast"
-        );
+const toast =
+    document.getElementById("toast");
+
+const togglePassword =
+    document.getElementById("toggle-password");
+
+/* ======================
+   TOAST
+====================== */
+function showToast(message, type) {
 
     toast.className = "";
+    toast.classList.add(type, "show");
 
-    toast.classList.add(
-        type
-    );
+    toast.textContent = message;
 
-    toast.classList.add(
-        "show"
-    );
-
-    toast.innerText =
-        message;
-
-    setTimeout(()=>{
-
-        toast.classList.remove(
-            "show"
-        );
-
-    },3000);
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
 }
 
-/* LOGIN */
+/* ======================
+   BUTTON
+====================== */
+function setLoading() {
+
+    button.classList.add("btn-loading");
+
+    button.innerHTML = `
+        <span class="spinner"></span>
+        Loading...
+    `;
+}
+
+function resetButton() {
+
+    button.classList.remove("btn-loading");
+    button.textContent = "Login";
+}
+
+/* ======================
+   LOGIN
+====================== */
 form.addEventListener(
     "submit",
-    async function(e){
+    async (e) => {
 
         e.preventDefault();
 
         const username =
-            document.getElementById(
-                "username"
-            ).value.trim();
+            usernameInput.value.trim();
 
         const password =
-            document.getElementById(
-                "password"
-            ).value.trim();
+            passwordInput.value.trim();
 
         /* VALIDASI */
-        if(!username || !password){
+        if (!username || !password) {
 
             showToast(
                 "Username dan password wajib diisi",
@@ -78,73 +89,82 @@ form.addEventListener(
             return;
         }
 
-        /* LOADING */
-        button.classList.add(
-            "btn-loading"
-        );
+        setLoading();
 
-        button.innerHTML = `
-            <span class="spinner"></span>
-            Loading...
-        `;
+        try {
 
-        try{
-
-            const result =
-                await login({
-                    username,
-                    password
-                });
+            const result = await login({
+                username,
+                password
+            });
 
             console.log(result);
 
-            if(result.ok){
-
-                saveAuth(result.data);
-
-                showToast(
-                    "Login berhasil",
-                    "toast-success"
-                );
-
-                setTimeout(()=>{
-
-                    window.location.replace(
-                        "/index.html"
-                    );
-
-                },1000);
-
-            }else{
+            if (!result.ok) {
 
                 showToast(
                     "Username atau password salah",
                     "toast-error"
                 );
 
-                button.classList.remove(
-                    "btn-loading"
-                );
-
-                button.innerHTML =
-                    "Login";
+                resetButton();
+                return;
             }
 
-        }catch(error){
+            saveAuth(result.data);
 
-            console.log(error);
+            showToast(
+                "Login berhasil",
+                "toast-success"
+            );
+
+            setTimeout(() => {
+                window.location.replace(
+                    "/index.html"
+                );
+            }, 1000);
+
+        } catch (error) {
+
+            console.error(error);
 
             showToast(
                 "Server error",
                 "toast-error"
             );
 
-            button.classList.remove(
-                "btn-loading"
-            );
-
-            button.innerHTML =
-                "Login";
+            resetButton();
         }
     }
 );
+
+/* ======================
+   SHOW / HIDE PASSWORD
+====================== */
+if (togglePassword) {
+
+    togglePassword.addEventListener(
+        "click",
+        () => {
+
+            const isPassword =
+                passwordInput.type ===
+                "password";
+
+            passwordInput.type =
+                isPassword
+                    ? "text"
+                    : "password";
+
+            togglePassword.classList.toggle(
+                "ri-eye-off-line",
+                !isPassword
+            );
+
+            togglePassword.classList.toggle(
+                "ri-eye-line",
+                isPassword
+            );
+        }
+    );
+}
