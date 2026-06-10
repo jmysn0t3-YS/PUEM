@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 
@@ -27,7 +27,7 @@ class UserViewSet(
 class ProfileView(APIView):
 
     permission_classes = [
-        IsAdminUser
+        IsAuthenticated
     ]
 
     def get(self, request):
