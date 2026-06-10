@@ -41,7 +41,7 @@ class ProfileView(APIView):
         )
     
 class ChangePasswordView(APIView):
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         user = request.user
@@ -58,7 +58,7 @@ class ChangePasswordView(APIView):
         return Response({"message": "Password berhasil diubah"})
     
 class VerifyPasswordView(APIView):
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         user = request.user
@@ -70,7 +70,7 @@ class VerifyPasswordView(APIView):
         return Response({"message": "OK"})
 
 class UpdateUsernameView(APIView):
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def patch(self, request):
         user = request.user
