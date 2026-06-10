@@ -28,11 +28,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
 
-        password = validated_data.pop(
-            "password"
-        )
+        password = validated_data.pop("password")
 
         user = User(**validated_data)
+
+        # otomatis set staff berdasarkan role
+        user.is_staff = (
+            user.role == "admin"
+        )
 
         user.set_password(password)
 
@@ -57,6 +60,11 @@ class UserSerializer(serializers.ModelSerializer):
                 key,
                 value
             )
+
+        # otomatis update is_staff
+        instance.is_staff = (
+            instance.role == "admin"
+        )
 
         if password:
             instance.set_password(
