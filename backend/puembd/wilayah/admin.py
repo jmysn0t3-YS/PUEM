@@ -3,7 +3,6 @@
 from django.contrib import admin
 from .models import Kecamatan, Desa
 
-
 @admin.register(Kecamatan)
 class KecamatanAdmin(admin.ModelAdmin):
     list_display = ['id', 'nama_kec']
