@@ -3,7 +3,7 @@ from .models import Kecamatan, Desa
 from .serializers import KecamatanSerializer, DesaSerializer
 from rest_framework.decorators import api_view
 from rest_framework.permissions import (
-    IsAdminUser
+    IsAuthenticatedOrReadOnly
 )
 
 from rest_framework import viewsets
@@ -17,7 +17,7 @@ class KecamatanViewSet(viewsets.ModelViewSet):
     queryset = Kecamatan.objects.all()
     serializer_class = KecamatanSerializer
     permission_classes = [
-            IsAdminUser
+            IsAuthenticatedOrReadOnly
         ]
 
     filter_backends = [
@@ -36,7 +36,7 @@ class DesaViewSet(viewsets.ModelViewSet):
     queryset = Desa.objects.select_related('kecamatan')
     serializer_class = DesaSerializer
     permission_classes = [
-            IsAdminUser
+            IsAuthenticatedOrReadOnly
         ]
 
     filter_backends = [
