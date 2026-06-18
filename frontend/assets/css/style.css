@@ -364,19 +364,29 @@ FOOTER
 /* =========================
    MOBILE RESPONSIVE
 ========================= */
-@media (max-width: 768px){
+@media (max-width: 768px) {
 
-    /* SIDEBAR */
-    .sidebar{
-        position:fixed;
-        left:-240px;
-        top:0;
-        z-index:1000;
-        transition:.3s;
+    .sidebar {
+        position: fixed;
+        left: -260px;
+        top: 0;
+        height: 100%;
+        z-index: 1000;
+
+        transition: 0.3s ease;
     }
 
-    .sidebar.show{
-        left:0;
+    .sidebar.show {
+        left: 0;
+    }
+
+    /* overlay biar lebih modern */
+    .sidebar.show::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: -1;
     }
 
     /* MAIN */
