@@ -45,7 +45,7 @@
         <!-- MENU -->
         <ul class="menu">
 
-            <li class="active">
+            <li>
                 <a href="index.html">
                     <i class="ri-dashboard-line"></i>
                     <span>Dashboard</span>
@@ -66,51 +66,43 @@
                 </a>
             </li>
 
-            <li>
+            <li class="active">
                 <a href="profil.html">
                     <i class="ri-user-3-line"></i>
                     <span>Profil</span>
                 </a>
             </li>
 
-            <li>
-                <a href="export.html">
-                    <i class="ri-user-3-line"></i>
-                    <span>Export</span>
-                </a>
-            </li>
-
             <li id="menu-admin">
                 <a href="admin.html">
-                    <i class="ri-user-3-line"></i>
+                    <i class="ri-shield-user-line"></i>
                     <span>Admin</span>
                 </a>
             </li>
 
             <li>
-                <a href="#" id="logout-btn">
-                    <i class="ri-logout-box-r-line"></i>
-                    <span>Logout</span>
+                <a href="#" id="exportdata">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Export</span>
                 </a>
             </li>
-
         </ul>
-
         <!-- BOTTOM -->
         <div class="sidebar-bottom">
 
             <div class="divider"></div>
 
-            <div class="bottom-item">
-                <i class="ri-settings-3-line"></i>
-                <span>Settings</span>
+            <div class="bottom-item" id="logout-btn">
+                <i class="ri-logout-box-r-line"></i>
+                <span>Logout</span>
             </div>
 
         </div>
 
+
     </aside>
 
-    <!-- RIGHT SIDE -->
+    <!-- MAIN -->
     <div class="main-wrapper">
 
         <!-- NAVBAR -->
@@ -125,24 +117,7 @@
                     <i class="ri-menu-line"></i>
                 </button>
 
-                <h3>User</h3>
-
-            </div>
-
-            <div class="right-nav">
-
-                <div class="nav-user">
-
-                    <div class="avatar">
-                        <i class="ri-user-3-line"></i>
-                    </div>
-
-                    <div class="user-info">
-                        <h4>Administrator</h4>
-                        <p>Super Admin</p>
-                    </div>
-
-                </div>
+                <h3> DATA PENGUNA</h3>
 
             </div>
 
@@ -192,10 +167,12 @@
                     <div class="profile-actions">
 
                         <button class="btn-primary">
+                            <i class="ri-user-settings-line"></i>
                             Edit Username
                         </button>
 
                         <button class="btn-warning">
+                            <i class="ri-lock-password-line"></i>
                             Ganti Password
                         </button>
 
@@ -214,12 +191,22 @@
 
 
                             <!-- FORM EDIT USERNAME -->
-                            <div class="form-section" id="edit-username-section">                                                           
-                                <label>Username Baru</label>
-                                <input type="text" id="new-username" placeholder="Masukkan username baru">
-                                <button class="btn-primary" id="save-username">
+                            <div class="form-section" id="edit-username-section">
+
+                                <div class="input-group">
+                                    <i class="ri-user-line"></i>
+                                    <input
+                                        type="text"
+                                        id="new-username"
+                                        placeholder="Masukkan username baru"
+                                    >
+                                </div>
+
+                                <button id="save-username">
+                                    <i class="ri-save-line"></i>
                                     Simpan Username
                                 </button>
+
                             </div>
 
                             <!-- FORM GANTI PASSWORD -->
@@ -227,23 +214,46 @@
 
                                 <!-- STEP 1 -->
                                 <div id="step-verify">
-                                    <label>Password Lama</label>
-                                    <input type="password" id="old-password">
+                                    <div class="input-group">
+                                        <i class="ri-lock-line"></i>
+                                        <input
+                                            type="password"
+                                            id="old-password"
+                                            placeholder="Masukkan password lama"
+                                        >
+                                         <i class="ri-eye-line toggle-password" data-target="old-password"></i>
+                                    </div><br>
 
-                                    <button class="btn-warning" id="verify-password">
+                                    <button id="verify-password">
+                                        <i class="ri-check-line"></i>
                                         Konfirmasi Password
                                     </button>
                                 </div>
 
                                 <!-- STEP 2 -->
                                 <div id="step-new" class="hidden">
-                                    <label>Password Baru</label>
-                                    <input type="password" id="new-password">
+                                    <div class="input-group">
+                                        <i class="ri-lock-password-line"></i>
+                                        <input
+                                            type="password"
+                                            id="new-password"
+                                            placeholder="Password baru"
+                                        >
+                                         <i class="ri-eye-line toggle-password" data-target="old-password"></i>
+                                    </div><br>
 
-                                    <label>Konfirmasi Password</label>
-                                    <input type="password" id="confirm-password">
+                                    <div class="input-group">
+                                        <i class="ri-shield-check-line"></i>
+                                        <input
+                                            type="password"
+                                            id="confirm-password"
+                                            placeholder="Konfirmasi password"
+                                        >
+                                         <i class="ri-eye-line toggle-password" data-target="old-password"></i>
+                                    </div><br>
 
-                                    <button class="btn-primary" id="update-password">
+                                    <button id="update-password">
+                                        <i class="ri-lock-password-line"></i>
                                         Ubah Password
                                     </button>
                                 </div>
@@ -280,6 +290,11 @@
 
 
 <script type="module" src="assets/js/profil/profil.js"></script>
+
+<!-- Script Export data -->
+<script type="module" src="assets/js/export/export.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script type="module">
 
 import {

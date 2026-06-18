@@ -45,7 +45,7 @@
         <!-- MENU -->
         <ul class="menu">
 
-            <li class="active">
+            <li>
                 <a href="index.html">
                     <i class="ri-dashboard-line"></i>
                     <span>Dashboard</span>
@@ -73,44 +73,36 @@
                 </a>
             </li>
 
-            <li>
-                <a href="export.html">
-                    <i class="ri-user-3-line"></i>
-                    <span>Export</span>
-                </a>
-            </li>
-
             <li id="menu-admin">
                 <a href="admin.html">
-                    <i class="ri-user-3-line"></i>
+                    <i class="ri-shield-user-line"></i>
                     <span>Admin</span>
                 </a>
             </li>
 
-            <li>
-                <a href="#" id="logout-btn">
-                    <i class="ri-logout-box-r-line"></i>
-                    <span>Logout</span>
+            <li class="active">
+                <a href="export.html">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Export</span>
                 </a>
             </li>
-
         </ul>
-
         <!-- BOTTOM -->
         <div class="sidebar-bottom">
 
             <div class="divider"></div>
 
-            <div class="bottom-item">
-                <i class="ri-settings-3-line"></i>
-                <span>Settings</span>
+            <div class="bottom-item" id="logout-btn">
+                <i class="ri-logout-box-r-line"></i>
+                <span>Logout</span>
             </div>
 
         </div>
 
+
     </aside>
 
-    <!-- RIGHT SIDE -->
+    <!-- MAIN -->
     <div class="main-wrapper">
 
         <!-- NAVBAR -->
@@ -125,24 +117,7 @@
                     <i class="ri-menu-line"></i>
                 </button>
 
-                <h3>User</h3>
-
-            </div>
-
-            <div class="right-nav">
-
-                <div class="nav-user">
-
-                    <div class="avatar">
-                        <i class="ri-user-3-line"></i>
-                    </div>
-
-                    <div class="user-info">
-                        <h4>Administrator</h4>
-                        <p>Super Admin</p>
-                    </div>
-
-                </div>
+                <h3>DASHBOARD EXPORT DATA BUMDES</h3>
 
             </div>
 
@@ -166,51 +141,22 @@
                 </button>
 
             </div>
+            <div class="export-card">
 
-            <!-- TABLE PREVIEW -->
-            <div class="table-box table-scroll">
+    <i class="ri-file-excel-2-line"></i>
 
-                <div class="table-header">
-                    Preview Data BUMDES
-                </div>
+    <h2>Export Data BUMDES</h2>
 
-                <table>
+    <p>
+        Download seluruh data BUMDES
+        dalam format Excel.
+    </p>
 
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama BUMDES</th>
-                            <th>Desa</th>
-                            <th>Kecamatan</th>
-                            <th>Alamat</th>
-                            <th>No HP</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Peringkat</th>
-                            <th>Sektor</th>
-                            <th>Jenis</th>
+    <button id="btn-export">
+        Download Excel
+    </button>
 
-                            <th>No Perdes</th>
-                            <th>Tgl Perdes</th>
-                            <th>No AHU</th>
-                            <th>Tgl AHU</th>
-
-                            <th>Direktur</th>
-                            <th>No Direktur</th>
-                            <th>Sekretaris</th>
-                            <th>No Sekretaris</th>
-                            <th>Bendahara</th>
-                            <th>No Bendahara</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="export-table-body">
-                        <!-- DATA DARI JS -->
-                    </tbody>
-
-                </table>
-
-            </div>
+</div>
 
         </main>
 

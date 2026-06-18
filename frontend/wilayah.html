@@ -42,7 +42,7 @@
         <!-- MENU -->
         <ul class="menu">
 
-            <li class="active">
+            <li>
                 <a href="index.html">
                     <i class="ri-dashboard-line"></i>
                     <span>Dashboard</span>
@@ -56,7 +56,7 @@
                 </a>
             </li>
 
-            <li>
+            <li class="active">
                 <a href="wilayah.html">
                     <i class="ri-map-pin-line"></i>
                     <span>Wilayah</span>
@@ -70,44 +70,36 @@
                 </a>
             </li>
 
-            <li>
-                <a href="export.html">
-                    <i class="ri-user-3-line"></i>
-                    <span>Export</span>
-                </a>
-            </li>
-
             <li id="menu-admin">
                 <a href="admin.html">
-                    <i class="ri-user-3-line"></i>
+                    <i class="ri-shield-user-line"></i>
                     <span>Admin</span>
                 </a>
             </li>
 
             <li>
-                <a href="#" id="logout-btn">
-                    <i class="ri-logout-box-r-line"></i>
-                    <span>Logout</span>
+                <a href="#" id="exportdata">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Export</span>
                 </a>
             </li>
-
         </ul>
-
         <!-- BOTTOM -->
         <div class="sidebar-bottom">
 
             <div class="divider"></div>
 
-            <div class="bottom-item">
-                <i class="ri-settings-3-line"></i>
-                <span>Settings</span>
+            <div class="bottom-item" id="logout-btn">
+                <i class="ri-logout-box-r-line"></i>
+                <span>Logout</span>
             </div>
 
         </div>
 
+
     </aside>
 
-    <!-- RIGHT SIDE -->
+    <!-- MAIN -->
     <div class="main-wrapper">
 
         <!-- NAVBAR -->
@@ -122,24 +114,7 @@
                     <i class="ri-menu-line"></i>
                 </button>
 
-                <h3>Dashboard</h3>
-
-            </div>
-
-            <div class="right-nav">
-
-                <div class="nav-user">
-
-                    <div class="avatar">
-                        <i class="ri-user-3-line"></i>
-                    </div>
-
-                    <div class="user-info">
-                        <h4>Administrator</h4>
-                        <p>Super Admin</p>
-                    </div>
-
-                </div>
+                <h3> DATA KECAMATAN & DESA</h3>
 
             </div>
 
@@ -246,6 +221,8 @@
         <tbody id="wilayah-body"></tbody>
 
     </table>
+        <!-- PAGINATION -->
+    <div id="pagination" class="pagination"></div>
 
             </div>
 
@@ -396,6 +373,9 @@
 <!-- load -->
 <script type="module" src="assets/js/wilayah/wilayah.js"></script>
  
+<!-- Script Export data -->
+<script type="module" src="assets/js/export/export.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script type="module">
 

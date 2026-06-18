@@ -39,6 +39,9 @@ let isEditing = false;
 // desa
 let desaSelect;
 
+let currentPage = 1;
+const rowsPerPage = 10;
+
 /* =========================
    LOAD BUMDES
 ========================= */
@@ -119,7 +122,7 @@ function renderTable(data){
 
     tbody.innerHTML = "";
 
-    if(data.length === 0){
+    if(!data.length){
 
         tbody.innerHTML = `
             <tr>
@@ -129,33 +132,43 @@ function renderTable(data){
             </tr>
         `;
 
+        renderPagination(0);
         return;
     }
 
-    data.forEach((item, index)=>{
+    const totalPages =
+        Math.ceil(
+            data.length / rowsPerPage
+        );
+
+    if(currentPage > totalPages){
+        currentPage = totalPages;
+    }
+
+    const start =
+        (currentPage - 1) *
+        rowsPerPage;
+
+    const end =
+        start + rowsPerPage;
+
+    const pageData =
+        data.slice(start, end);
+
+    pageData.forEach((item,index)=>{
 
         tbody.innerHTML += `
             <tr>
 
-                <td>
-                    ${index + 1}
-                </td>
+                <td>${start + index + 1}</td>
 
-                <td>
-                    ${item.nama_bumdes || "-"}
-                </td>
+                <td>${item.nama_bumdes || "-"}</td>
 
-                <td>
-                    ${item.desa_nama || "-"}
-                </td>
+                <td>${item.desa_nama || "-"}</td>
 
-                <td>
-                    ${item.kecamatan_nama || "-"}
-                </td>
+                <td>${item.kecamatan_nama || "-"}</td>
 
-                <td>
-                    ${item.status_nama || "-"}
-                </td>
+                <td>${item.status_nama || "-"}</td>
 
                 <td>
                     ${
@@ -174,28 +187,144 @@ function renderTable(data){
                 </td>
 
                 <td>
+                    <div class="action-buttons">
 
-                    <button
-                        class="btn-info"
-                        onclick="showDetail(${item.id})"
-                    >
-                        Detail
-                    </button>
+                        <button
+                            class="btn info"
+                            onclick="showDetail(${item.id})"
+                        >
+                            <i class="ri-eye-line"></i>
+                        </button>
 
-                    <button class="btn-edit" onclick="openEdit(${item.id})">
-                        Edit
-                    </button>
+                        <button
+                            class="btn warning"
+                            onclick="openEdit(${item.id})"
+                        >
+                            <i class="ri-edit-line"></i>
+                        </button>
 
-                   <button class="btn-delete" onclick="deleteBumdes(${item.id})">
-                        Hapus
-                    </button>
+                        <button
+                            class="btn danger"
+                            onclick="deleteBumdes(${item.id})"
+                        >
+                            <i class="ri-delete-bin-line"></i>
+                        </button>
 
+                    </div>
                 </td>
 
             </tr>
         `;
     });
+
+    renderPagination(data.length);
 }
+
+function renderPagination(totalData){
+
+    const pagination =
+        document.getElementById(
+            "pagination"
+        );
+
+    if(!pagination) return;
+
+    const totalPages =
+        Math.ceil(
+            totalData / rowsPerPage
+        );
+
+    pagination.innerHTML = "";
+
+    if(totalPages <= 1) return;
+
+    pagination.innerHTML += `
+        <button
+            ${currentPage === 1 ? "disabled" : ""}
+            onclick="changePage(${currentPage - 1})"
+        >
+            <i class="ri-arrow-left-s-line"></i>
+        </button>
+    `;
+
+    for(let i=1; i<=totalPages; i++){
+
+        pagination.innerHTML += `
+            <button
+                class="${
+                    i === currentPage
+                    ? "active"
+                    : ""
+                }"
+                onclick="changePage(${i})"
+            >
+                ${i}
+            </button>
+        `;
+    }
+
+    pagination.innerHTML += `
+        <button
+            ${
+                currentPage === totalPages
+                ? "disabled"
+                : ""
+            }
+            onclick="changePage(${currentPage + 1})"
+        >
+            <i class="ri-arrow-right-s-line"></i>
+        </button>
+    `;
+}
+
+function changePage(page){
+
+    currentPage = page;
+
+    const keyword =
+        searchInput.value
+        .toLowerCase();
+
+    const filtered =
+        bumdesData.filter(item =>
+
+            item.nama_bumdes
+            ?.toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            item.desa_nama
+            ?.toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            item.kecamatan_nama
+            ?.toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            item.sektor_usaha_nama
+            ?.join(" ")
+            .toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            item.jenis_usaha_nama
+            ?.join(" ")
+            .toLowerCase()
+            .includes(keyword)
+        );
+
+    renderTable(filtered);
+}
+
+window.changePage =
+    changePage;
+
 
 /* =========================
    SEARCH
@@ -203,6 +332,8 @@ function renderTable(data){
 searchInput.addEventListener(
     "input",
     function(){
+
+        currentPage = 1;
 
         const keyword =
             this.value.toLowerCase();
@@ -617,8 +748,9 @@ async function saveJenisBaru(){
 
         if(!jenis || !sektor){
 
-            alert(
-                "Lengkapi data"
+            showToast(
+                "Lengkapi data terlebih dahulu",
+                "error"
             );
 
             return;
@@ -665,8 +797,8 @@ async function saveJenisBaru(){
         ).value = "";
 
         showToast(
-            "Gagal tambah jenis usaha",
-            "error"
+            "Jenis Usaha Di Tambahkan",
+            "success"
         );
 
     }catch(error){
@@ -1357,13 +1489,21 @@ function showDetail(id){
             </div>
 
         </div>
-            <button class="btn-edit" onclick="openEdit(${item.id})">
-                Edit
+            <button
+            class="btn warning"
+            onclick="openEdit(${item.id})"
+            >
+            <i class="ri-edit-line"></i>
+            Edit
             </button>
 
-            <button class="btn-delete" onclick="deleteBumdes(${item.id})">
-                Hapus
-            </button>        
+            <button
+            class="btn danger"
+            onclick="deleteBumdes(${item.id})"
+            >
+            <i class="ri-delete-bin-line"></i>
+            Hapus
+            </button>      
     `;
 
     document
@@ -1456,7 +1596,8 @@ async function init(){
     // DESA
      desaSelect = new TomSelect("#desa-bumdes", {
         create: false,
-        placeholder: "Cari Desa..."
+        placeholder: "Cari Desa...",
+        maxOptions: 1000
     });
 
     // SEKTOR

@@ -224,6 +224,25 @@
         }
     });
 
+    document.querySelectorAll(".toggle-password").forEach(icon => {
+        icon.addEventListener("click", () => {
+
+            const targetId = icon.getAttribute("data-target");
+            const input = document.getElementById(targetId);
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("ri-eye-line");
+                icon.classList.add("ri-eye-off-line");
+            } else {
+                input.type = "password";
+                icon.classList.remove("ri-eye-off-line");
+                icon.classList.add("ri-eye-line");
+            }
+
+        });
+    });
+
     updateBtn.addEventListener("click", async () => {
 
         const newPass = newPasswordInput.value.trim();

@@ -11,6 +11,8 @@ let desaData = [];
 let selectedKecamatanId = "";
 let editKecamatanId = null;
 let editDesaId = null;
+let currentPage = 1;
+const rowsPerPage = 10;
 /* =========================
    FETCH UTIL
 ========================= */
@@ -84,6 +86,142 @@ function renderDesaView(){
         );
     });
 
+    /* =========================
+       PAGINATION
+    ========================= */
+    const totalPages =
+        Math.ceil(
+            list.length / rowsPerPage
+        );
+
+    if(currentPage > totalPages){
+        currentPage = totalPages || 1;
+    }
+
+    const start =
+        (currentPage - 1) *
+        rowsPerPage;
+
+    const end =
+        start + rowsPerPage;
+
+    const paginatedData =
+        list.slice(start, end);
+
+    function renderPagination(totalData){
+
+        const pagination =
+            document.getElementById(
+                "pagination"
+            );
+
+        if(!pagination) return;
+
+        const totalPages =
+            Math.ceil(
+                totalData / rowsPerPage
+            );
+
+        pagination.innerHTML = "";
+
+        if(totalPages <= 1) return;
+
+        pagination.innerHTML += `
+            <button
+                ${currentPage === 1 ? "disabled" : ""}
+                onclick="changePage(${currentPage - 1})"
+            >
+                <i class="ri-arrow-left-s-line"></i>
+            </button>
+        `;
+
+        let start =
+            Math.max(
+                currentPage - 2,
+                1
+            );
+
+        let end =
+            Math.min(
+                currentPage + 2,
+                totalPages
+            );
+
+        if(start > 1){
+            pagination.innerHTML += `
+                <button onclick="changePage(1)">
+                    1
+                </button>
+            `;
+
+            if(start > 2){
+                pagination.innerHTML += `
+                    <span class="dots">...</span>
+                `;
+            }
+        }
+
+        for(let i = start; i <= end; i++){
+
+            pagination.innerHTML += `
+                <button
+                    class="${
+                        i === currentPage
+                        ? "active"
+                        : ""
+                    }"
+                    onclick="changePage(${i})"
+                >
+                    ${i}
+                </button>
+            `;
+        }
+
+        if(end < totalPages){
+
+            if(end < totalPages - 1){
+                pagination.innerHTML += `
+                    <span class="dots">...</span>
+                `;
+            }
+
+            pagination.innerHTML += `
+                <button
+                    onclick="
+                        changePage(${totalPages})
+                    "
+                >
+                    ${totalPages}
+                </button>
+            `;
+        }
+
+        pagination.innerHTML += `
+            <button
+                ${
+                    currentPage === totalPages
+                    ? "disabled"
+                    : ""
+                }
+                onclick="
+                    changePage(${currentPage + 1})
+                "
+            >
+                <i class="ri-arrow-right-s-line"></i>
+            </button>
+        `;
+    }
+    function changePage(page){
+
+        currentPage = page;
+
+        renderDesaView();
+    }
+
+    window.changePage = changePage;
+    /* =========================
+       EMPTY DATA
+    ========================= */
     if(list.length === 0){
 
         tbody.innerHTML = `
@@ -94,10 +232,17 @@ function renderDesaView(){
             </tr>
         `;
 
+        document.getElementById(
+            "pagination"
+        ).innerHTML = "";
+
         return;
     }
 
-    list.forEach((d,i)=>{
+    /* =========================
+       RENDER TABLE
+    ========================= */
+    paginatedData.forEach((d,i)=>{
 
         const kec =
             kecamatanData.find(
@@ -106,27 +251,42 @@ function renderDesaView(){
 
         tbody.innerHTML += `
             <tr>
-                <td>${i+1}</td>
-                <td>${kec?.nama_kec || "-"}</td>
-                <td>${d.nama_desa}</td>
-                <td>
-                    <button
-                        class="btn warning"
-                        onclick="editDesa(${d.id})"
-                    >
-                        Edit
-                    </button>
+                <td>${start + i + 1}</td>
 
-                    <button
-                        class="btn danger"
-                        onclick="deleteDesa(${d.id})"
-                    >
-                        Hapus
-                    </button>
+                <td>
+                    ${kec?.nama_kec || "-"}
+                </td>
+
+                <td>
+                    ${d.nama_desa}
+                </td>
+
+                <td>
+                    <div class="action-buttons">
+
+                        <button
+                            class="btn warning"
+                            onclick="editDesa(${d.id})"
+                        >
+                            <i class="ri-edit-line"></i>
+                            Edit
+                        </button>
+
+                        <button
+                            class="btn danger"
+                            onclick="deleteDesa(${d.id})"
+                        >
+                            <i class="ri-delete-bin-line"></i>
+                            Hapus
+                        </button>
+
+                    </div>
                 </td>
             </tr>
         `;
     });
+
+    renderPagination(list.length);
 }
 /* =========================
    LOAD DATA
@@ -231,6 +391,8 @@ function filterByKecamatan(){
             "filter-kecamatan"
         ).value;
 
+    currentPage = 1;
+
     renderDesaView();
 }
 
@@ -260,25 +422,25 @@ function renderManageKecamatan(){
                 </td>
 
                 <td>
+                    <div class="action-buttons">
 
-                    <button
-                        class="btn warning"
-                        onclick="
-                            editKecamatan(${k.id})
-                        "
-                    >
-                        Edit
-                    </button>
+                        <button
+                            class="btn warning"
+                            onclick="editKecamatan(${k.id})"
+                        >
+                            <i class="ri-edit-line"></i>
+                            Edit
+                        </button>
 
-                    <button
-                        class="btn danger"
-                        onclick="
-                            deleteKecamatan(${k.id})
-                        "
-                    >
-                        Hapus
-                    </button>
+                        <button
+                            class="btn danger"
+                            onclick="deleteKecamatan(${k.id})"
+                        >
+                            <i class="ri-delete-bin-line"></i>
+                            Hapus
+                        </button>
 
+                    </div>
                 </td>
 
             </tr>

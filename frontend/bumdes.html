@@ -54,7 +54,7 @@
                 </a>
             </li>
 
-            <li class="active"></liclass>
+            <li class="active">
                 <a href="bumdes.html">
                     <i class="ri-building-line"></i>
                     <span>BUMDES</span>
@@ -75,27 +75,19 @@
                 </a>
             </li>
 
-            <li>
-                <a href="export.html">
-                    <i class="ri-user-3-line"></i>
-                    <span>Export</span>
-                </a>
-            </li>
-
             <li id="menu-admin">
                 <a href="admin.html">
-                    <i class="ri-user-3-line"></i>
+                    <i class="ri-shield-user-line"></i>
                     <span>Admin</span>
                 </a>
             </li>
 
             <li>
-                <a href="#" id="logout-btn">
-                    <i class="ri-logout-box-r-line"></i>
-                    <span>Logout</span>
+                <a href="#" id="exportdata">
+                    <i class="ri-download-cloud-line"></i>
+                    <span>Export</span>
                 </a>
             </li>
-
         </ul>
 
         <!-- BOTTOM -->
@@ -103,16 +95,17 @@
 
             <div class="divider"></div>
 
-            <div class="bottom-item">
-                <i class="ri-settings-3-line"></i>
-                <span>Settings</span>
+            <div class="bottom-item" id="logout-btn">
+                <i class="ri-logout-box-r-line"></i>
+                <span>Logout</span>
             </div>
 
         </div>
 
+
     </aside>
 
-    <!-- RIGHT SIDE -->
+    <!-- MAIN -->
     <div class="main-wrapper">
 
         <!-- NAVBAR -->
@@ -127,24 +120,7 @@
                     <i class="ri-menu-line"></i>
                 </button>
 
-                <h3>BUMDesa</h3>
-
-            </div>
-
-            <div class="right-nav">
-
-                <div class="nav-user">
-
-                    <div class="avatar">
-                        <i class="ri-user-3-line"></i>
-                    </div>
-
-                    <div class="user-info">
-                        <h4>Administrator</h4>
-                        <p>Super Admin</p>
-                    </div>
-
-                </div>
+                <h3> DATA BUMDES</h3>
 
             </div>
 
@@ -164,87 +140,21 @@
             </div>
 
             <!-- CARD -->
-            <div class="card-grid">
+            <div class="stats-grid">
 
                 <div class="dashboard-card blue">
-
                     <div>
                         <h3 id="total-bumdes">0</h3>
-                        <p>BUMDES</p>
+                        <p>Total BUMDES</p>
                     </div>
 
                     <i class="ri-building-line"></i>
-
                 </div>
 
             </div>
 
-            <!-- ACTION -->
-            <div class="action-bar">
-
-                <div class="left-action">
-
-                    <input
-                        type="text"
-                        id="search-bumdes"
-                        placeholder="Cari BUMDES..."
-                    >
-
-                </div>
-
-                <div class="right-action">
-
-                    <select id="filter-kecamatan">
-                        <option value="">
-                            Semua Kecamatan
-                        </option>
-                    </select>
-
-                    <button
-                        class="btn primary"
-                        onclick="openBumdesModal()"
-                    >
-                        <i class="ri-add-line"></i>
-                        Tambah BUMDES
-                    </button>
-
-                    <!-- MODAL DETAIL -->
-                    <div class="modal" id="detail-modal">
-
-                        <div class="modal-content detail-modal">
-
-                            <div class="modal-header">
-
-                                <h3>Detail BUMDES</h3>
-
-                                <button
-                                    onclick="closeModal('detail-modal')"
-                                >
-                                    ✕
-                                </button>
-                                
-
-                            </div>
-
-                            <div
-                                class="modal-body"
-                                id="detail-content"
-                            >
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- TABLE -->
-            <div class="table-box">
-
-                <!-- MODAL -->
+            
+            <!-- MODAL -->
                 <div class="modal" id="bumdes-modal">
 
                     <div class="modal-content form-modal">
@@ -601,9 +511,54 @@
                     </div>
 
                 </div>
+                <!-- MODAL DETAIL -->
+                <div class="modal" id="detail-modal">
 
-                <div class="table-header">
-                    Data BUMDES
+                    <div class="modal-content detail-modal">
+
+                        <div class="modal-header">
+                            <h3>Detail BUMDES</h3>
+
+                            <button onclick="closeModal('detail-modal')">
+                                ✕
+                            </button>
+                        </div>
+
+                        <div
+                            class="modal-body"
+                            id="detail-content"
+                        ></div>
+
+                    </div>
+
+                </div>
+                
+            <!-- TABLE -->
+            <div class="table-box">
+                <div class="table-toolbar">
+
+                    <h3>Data BUMDES</h3>
+
+                    <input
+                        type="text"
+                        id="search-bumdes"
+                        placeholder="Cari BUMDES..."
+                    >
+
+                    <select id="filter-kecamatan">
+                        <option value="">
+                            Semua Kecamatan
+                        </option>
+                    </select>
+
+                    <button
+                        class="btn primary"
+                        onclick="openBumdesModal()"
+                    >
+                        <i class="ri-add-line"></i>
+                        Tambah BUMDES
+                    </button>
+
                 </div>
 
                 <table>
@@ -626,6 +581,8 @@
                     </tbody>
 
                 </table>
+                <!-- PAGINATION -->
+                <div id="pagination" class="pagination"></div>
 
             </div>
 
@@ -650,6 +607,10 @@
 <!-- TOM SELECT -->
 <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 <script type="module" src="assets/js/bumdes/bumdes.js"></script>
+
+<!-- Script Export data -->
+<script type="module" src="assets/js/export/export.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script type="module">
 

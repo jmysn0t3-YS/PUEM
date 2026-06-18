@@ -129,7 +129,9 @@ button{
     background:white;
     color:#1e90ff;
 
-    font-weight:bold;
+    font-size:18px; /* perbesar teks */
+    font-weight:700;
+
     cursor:pointer;
 
     margin-top:10px;

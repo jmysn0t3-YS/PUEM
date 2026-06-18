@@ -70,33 +70,73 @@
     font-size:15px;
 }
 
-.profile-section{
-    margin-top:30px;
-    background:#fff;
-    border-radius:12px;
-    padding:24px;
-    box-shadow:0 2px 10px rgba(0,0,0,.05);
+/* =========================
+   PROFILE SECTION UPGRADE
+========================= */
+
+.profile-section {
+    margin-top: 30px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    text-align: center; /* ⬅ semua isi ke center */
 }
 
-.profile-section h3{
-    margin-bottom:20px;
-    color:#1e293b;
+/* Judul */
+.profile-section h3 {
+    margin-bottom: 24px;
+    color: #1e293b;
+    font-size: 18px;
 }
 
-.profile-info{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
+/* INFO WRAPPER */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center; /* ⬅ center semua item */
 }
 
-.info-item{
-    padding-bottom:16px;
-    border-bottom:1px solid #e5e7eb;
+/* ITEM */
+.info-item {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    text-align: center;
 }
 
-.info-item:last-child{
-    border-bottom:none;
-    padding-bottom:0;
+/* LABEL */
+.info-label {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+/* VALUE (USERNAME + ROLE) */
+.info-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* BUTTON AREA CENTER */
+.profile-actions {
+    display: flex;
+    justify-content: center; /* ⬅ ini yang bikin center */
+    gap: 12px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+
+.info-item:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,.06);
 }
 
 .info-label{
@@ -106,24 +146,55 @@
 }
 
 .info-value{
-    font-size:16px;
-    font-weight:600;
-    color:#1e293b;
+    font-size:17px;
+    font-weight:700;
+    color:#0f172a;
+}
+
+.profile-section{
+    background:#fff;
+    border-radius:20px;
+    padding:32px;
+    box-shadow:0 4px 18px rgba(0,0,0,.06);
+
+    max-width:700px;
+    margin:0 auto;
 }
 
 .profile-actions{
     display:flex;
-    gap:12px;
-    margin-top:24px;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+
+    margin-top:28px;
     flex-wrap:wrap;
 }
 
 .profile-actions button{
-    padding:12px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+
+    min-width:180px;
+    height:48px;
+
     border:none;
-    border-radius:8px;
-    cursor:pointer;
+    border-radius:12px;
+
     font-weight:600;
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.profile-actions button:hover{
+    transform:translateY(-2px);
+}
+
+.profile-actions button:hover{
+    transform:translateY(-2px);
 }
 
 .btn-primary{
@@ -136,6 +207,96 @@
     color:white;
 }
 
+
+.input-group{
+    position: relative;
+}
+
+/* ICON LOCK (KIRI) */
+.input-group > i:not(.toggle-password){
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 18px;
+}
+
+/* ICON MATA (KANAN) */
+.input-group .toggle-password{
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #94a3b8;
+    font-size: 18px;
+}
+
+/* kasih ruang kanan biar tidak ketiban icon */
+.input-group input{
+    padding-right: 44px;
+}
+
+.input-group input{
+    width:100%;
+    height:48px;
+
+    padding:0 14px 0 44px;
+
+    border:1px solid #dbe2ea;
+    border-radius:12px;
+
+    font-size:14px;
+}
+
+.input-group input:focus{
+    outline:none;
+    border-color:#2563eb;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(37,99,235,.12);
+}
+
+.form-section button{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+
+    width:100%;
+    height:48px;
+
+    border:none;
+    border-radius:12px;
+
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+    transition:.2s;
+}
+
+#save-username,
+#update-password{
+    background:#2563eb;
+    color:#fff;
+}
+
+#save-username:hover,
+#update-password:hover{
+    background:#1d4ed8;
+}
+
+#verify-password{
+    background:#f59e0b;
+    color:#fff;
+}
+
+#verify-password:hover{
+    background:#d97706;
+}
 
 
 .profile-card-form {
@@ -200,4 +361,97 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.input-group{
+    position: relative;
+}
+
+.input-group .toggle-password{
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #94a3b8;
+    font-size: 18px;
+}
+
+/* =========================
+   PROFILE RESPONSIVE (HP)
+========================= */
+@media (max-width: 768px) {
+
+    /* PROFILE CONTAINER */
+    .profile-section {
+        padding: 20px;
+        margin: 0 12px;
+    }
+
+    .profile-header {
+        padding: 20px 0;
+    }
+
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 36px;
+    }
+
+    .profile-name {
+        font-size: 20px;
+    }
+
+    .profile-role {
+        font-size: 13px;
+    }
+
+    /* INFO CARD */
+    .info-item {
+        max-width: 100%;
+    }
+
+    .profile-info {
+        gap: 12px;
+    }
+
+    /* BUTTON ACTION */
+    .profile-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .profile-actions button {
+        width: 100%;
+        min-width: unset;
+        height: 44px;
+    }
+
+    /* FORM MODAL */
+    .profile-card-form .form-box {
+        max-width: 92%;
+        padding: 16px;
+    }
+
+    .card-header h3 {
+        font-size: 16px;
+    }
+
+    /* INPUT GROUP */
+    .input-group input {
+        height: 44px;
+        font-size: 13px;
+    }
+
+    /* TOAST (kalau dipakai di profile) */
+    .toast {
+        width: calc(100% - 24px);
+        left: 12px;
+        right: 12px;
+        transform: none;
+    }
+
+    .toast.show {
+        transform: none;
+    }
 }

@@ -7,7 +7,6 @@
         repeat(auto-fit,minmax(240px,1fr));
 
     gap:20px;
-    margin-top:24px;
 }
 
 /* =========================
@@ -24,8 +23,7 @@
     align-items:center;
     justify-content:space-between;
 
-    box-shadow:
-        0 4px 18px rgba(0,0,0,.05);
+    box-shadow: 0 4px 18px rgba(0,0,0,.05);
 
     transition:.25s ease;
 }
@@ -76,17 +74,13 @@
 /* =========================
    CHART BOX
 ========================= */
-.chart-box{
-    margin-top:28px;
-
-    background:#fff;
-
+.chart-box,
+.activity-box,
+.alert-section{
     border-radius:22px;
-
-    padding:28px;
-
-    box-shadow:
-        0 4px 18px rgba(0,0,0,.05);
+    background:#fff;
+    padding:24px;
+    box-shadow:0 4px 18px rgba(0,0,0,.05);
 }
 
 /* TITLE */
@@ -210,18 +204,122 @@
 }
 
 /* =========================
-   BAR CHART
+   BUMDES PER KECAMATAN
 ========================= */
+
 .bar-chart-wrapper{
     width:100%;
-    height:420px;
+    height:500px;
 
     position:relative;
+
+    padding-top:10px;
 }
 
 .bar-chart-wrapper canvas{
     width:100% !important;
     height:100% !important;
+}
+
+.chart-box{
+    background:#fff;
+
+    border-radius:22px;
+
+    padding:24px;
+
+    box-shadow:
+        0 4px 18px rgba(0,0,0,.05);
+}
+
+.chart-box h3{
+    font-size:20px;
+    font-weight:700;
+
+    color:#0f172a;
+
+    margin-bottom:25px;
+}
+
+/* =========================
+   DATA BELUM LENGKAP
+========================= */
+
+.alert-section{
+    margin-top:28px;
+}
+
+.alert-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:16px;
+}
+
+.alert-card{
+    background:#fff;
+
+    border:1px solid #e2e8f0;
+    border-left:5px solid #f97316;
+
+    border-radius:16px;
+
+    padding:18px;
+
+    cursor:pointer;
+
+    transition:all .25s ease;
+}
+
+.alert-card:hover{
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 10px 24px rgba(0,0,0,.08);
+}
+
+.alert-title{
+    font-size:15px;
+    font-weight:700;
+
+    color:#0f172a;
+
+    margin-bottom:12px;
+}
+
+.alert-missing{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:8px;
+}
+
+.alert-tag{
+    background:#fff7ed;
+
+    color:#ea580c;
+
+    font-size:12px;
+    font-weight:600;
+
+    padding:6px 10px;
+
+    border-radius:999px;
+
+    border:1px solid #fed7aa;
+}
+
+.alert-empty{
+    background:#ecfdf5;
+
+    color:#16a34a;
+
+    text-align:center;
+
+    padding:20px;
+
+    border-radius:14px;
+
+    font-weight:600;
 }
 
 /* =========================
@@ -277,29 +375,108 @@ DASHBOARD ROW
 ========================= */
 .dashboard-row{
     display:grid;
-
     grid-template-columns:2fr 1fr;
-
     gap:20px;
 
     margin-top:28px;
 }
-/* =========================
-DASHBOARD ROW
-========================= */
-.dashboard-row{
-    display:grid;
-
-    grid-template-columns:2fr 1fr;
-
-    gap:20px;
-
+.dashboard-row + .chart-box{
     margin-top:28px;
+}
+
+/* =========================
+   DONUT CHART
+========================= */
+
+.chart-row-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-top:28px;
+}
+
+.chart-row-2 + .chart-box{
+    margin-top:28px;
+}
+
+/* CARD */
+.chart-box.donut-card{
+    background:#fff;
+    border-radius:22px;
+    padding:24px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    box-shadow:0 4px 18px rgba(0,0,0,.05);
+}
+
+.chart-box.donut-card h3{
+    width:100%;
+    margin-bottom:24px;
+
+    font-size:20px;
+    font-weight:700;
+    color:#0f172a;
+}
+
+/* WRAPPER CHART */
+.donut-chart-wrapper{
+    width:100%;
+    max-width:420px;
+
+    aspect-ratio:1 / 1;
+
+    position:relative;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    margin:auto;
+}
+
+/* CANVAS */
+.donut-chart-wrapper canvas{
+    width:100% !important;
+    height:100% !important;
+}
+
+/* RESPONSIVE */
+@media(max-width:992px){
+
+    .chart-row-2{
+        grid-template-columns:1fr;
+    }
+
+    .donut-chart-wrapper{
+        max-width:380px;
+    }
+}
+
+@media(max-width:768px){
+
+    .chart-box.donut-card{
+        padding:18px;
+    }
+
+    .donut-chart-wrapper{
+        max-width:320px;
+    }
+}
+
+@media(max-width:480px){
+
+    .donut-chart-wrapper{
+        max-width:260px;
+    }
 }
 /* =========================
 ACTIVITY BOX
 ========================= */
 .activity-box{
+    align-self:start;
     background:#fff;
 
     border-radius:22px;
@@ -308,8 +485,6 @@ ACTIVITY BOX
 
     box-shadow:
         0 4px 18px rgba(0,0,0,.05);
-
-    height:100%;
 }
 
 .activity-header{
@@ -348,7 +523,7 @@ DATA BELUM LENGKAP
 ========================= */
 
 .alert-section{
-    margin-bottom:24px;
+    margin-top:28px;
 }
 
 .alert-list{
@@ -359,57 +534,238 @@ DATA BELUM LENGKAP
 
 .alert-card{
     background:#fff;
-    border-left:4px solid #f97316;
-    border-radius:10px;
-    padding:14px 16px;
-    cursor:pointer;
-    transition:.2s;
+
+    border:1px solid #e2e8f0;
+    border-left:5px solid #f97316;
+
+    border-radius:14px;
+
+    padding:16px;
+
+    transition:.25s;
 }
 
 .alert-card:hover{
     transform:translateX(4px);
-    box-shadow:0 4px 10px rgba(0,0,0,.08);
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,.06);
 }
 
-.alert-title{
-    font-weight:600;
-    color:#9a3412;
-    margin-bottom:4px;
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:20px;
+    padding-bottom:16px;
+
+    border-bottom:1px solid #e2e8f0;
 }
 
-.alert-missing{
-    font-size:14px;
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.section-title i{
+    font-size:24px;
+    color:#f97316;
+}
+
+.section-title h3{
+    font-size:18px;
+    font-weight:700;
+    color:#0f172a;
+}
+
+.section-title p{
+    font-size:13px;
     color:#64748b;
-    line-height:1.5;
+    margin-top:2px;
 }
 
-.alert-empty{
-    background:#f0fdf4;
-    border-left:4px solid #22c55e;
-    padding:14px;
-    border-radius:10px;
-    color:#166534;
-}
+.alert-count{
+    background:#fff7ed;
+    color:#ea580c;
 
+    padding:6px 14px;
+
+    border-radius:999px;
+
+    font-size:13px;
+    font-weight:600;
+}
 
 /* =========================
    RESPONSIVE
 ========================= */
-@media(max-width:768px){
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width:768px){
 
+    /* CONTENT */
+    .content{
+        padding:15px;
+    }
+
+    /* HEADER */
+    .page-header{
+        margin-bottom:20px;
+    }
+
+    .page-header h1{
+        font-size:24px;
+    }
+
+    .page-header p{
+        font-size:14px;
+    }
+
+    /* CARD STATISTIK */
+    .stats-grid{
+        grid-template-columns:1fr;
+        gap:15px;
+    }
+
+    .stat-card{
+        padding:18px;
+    }
+
+    .stat-card h3{
+        font-size:28px;
+    }
+
+    .stat-card i{
+        font-size:32px;
+    }
+
+    /* ROW DASHBOARD */
+    .dashboard-row{
+        grid-template-columns:1fr;
+        gap:15px;
+    }
+
+    /* PIE CHART */
     .chart-layout{
         flex-direction:column;
+        gap:20px;
+    }
+
+    .chart-canvas{
+        width:220px;
+        height:220px;
     }
 
     .chart-legend{
         width:100%;
     }
 
-    .chart-canvas{
-        width:260px;
-        height:260px;
-    }
-    .alert-list{
+    /* CHART DONUT/BAR */
+    .chart-row-2{
         grid-template-columns:1fr;
+        gap:15px;
+    }
+
+    .donut-chart-wrapper{
+        height:320px;
+    }
+
+    .bar-chart-wrapper{
+        height:350px;
+    }
+
+    /* BOX */
+    .chart-box,
+    .activity-box,
+    .alert-section{
+        padding:18px;
+        border-radius:18px;
+    }
+
+    /* SECTION HEADER */
+    .section-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+    }
+
+    .alert-count{
+        align-self:flex-start;
+    }
+
+    /* ALERT */
+    .alert-card{
+        padding:14px;
+    }
+
+    .alert-title{
+        font-size:14px;
+    }
+
+    .alert-tag{
+        font-size:11px;
+    }
+
+    /* HISTORY */
+    .activity-card{
+        padding:12px;
+    }
+
+    .activity-icon{
+        width:40px;
+        height:40px;
+        font-size:18px;
+    }
+
+    .activity-content h4{
+        font-size:13px;
+    }
+
+    .activity-content p{
+        font-size:11px;
+    }
+}
+
+/* EXTRA SMALL DEVICE */
+@media (max-width:480px){
+
+    .content{
+        padding:12px;
+    }
+
+    .page-header h1{
+        font-size:22px;
+    }
+
+    .page-header p{
+        font-size:13px;
+    }
+
+    .chart-canvas{
+        width:180px;
+        height:180px;
+    }
+
+    .donut-chart-wrapper{
+        height:280px;
+    }
+
+    .bar-chart-wrapper{
+        height:300px;
+    }
+
+    .legend-item{
+        padding:10px 12px;
+    }
+
+    .legend-left p{
+        font-size:13px;
+    }
+
+    .legend-total{
+        font-size:12px;
     }
 }

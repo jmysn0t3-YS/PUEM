@@ -44,6 +44,9 @@ window.openBumdesDetail = function(id){
 let peringkatChart;
 
 let kecamatanChart;
+
+let sektorChart;
+let jenisChart;
 /* =========================
    LOAD DASHBOARD
 ========================= */
@@ -333,7 +336,68 @@ async function loadDashboard() {
             },
 
             plugins: [ChartDataLabels]
+        }); 
+        
+        /* =========================
+        SEKTOR USAHA
+        ========================= */
+        const sektorCount = {};
+
+        bumdes.forEach(item => {
+
+            if(item.sektor_usaha_nama){
+
+                item.sektor_usaha_nama.forEach(nama => {
+
+                    sektorCount[nama] =
+                        (sektorCount[nama] || 0) + 1;
+                });
+            }
         });
+
+        const sektorLabels =
+            Object.keys(sektorCount);
+
+        const sektorData =
+            Object.values(sektorCount);
+
+        sektorChart =
+            createDonutChart(
+                "sektorChart",
+                sektorLabels,
+                sektorData,
+                sektorChart
+            );
+        /* =========================
+        JENIS USAHA
+        ========================= */
+        const jenisCount = {};
+
+        bumdes.forEach(item => {
+
+            if(item.jenis_usaha_nama){
+
+                item.jenis_usaha_nama.forEach(nama => {
+
+                    jenisCount[nama] =
+                        (jenisCount[nama] || 0) + 1;
+                });
+            }
+        });
+
+        const jenisLabels =
+            Object.keys(jenisCount);
+
+        const jenisData =
+            Object.values(jenisCount);
+
+        jenisChart =
+            createDonutChart(
+                "jenisChart",
+                jenisLabels,
+                jenisData,
+                jenisChart
+            );
 
         /* =========================
         BUMDES PER KECAMATAN
@@ -363,7 +427,7 @@ async function loadDashboard() {
         /* SORT TERBANYAK */
         const sortedKecamatan =
             Object.entries(kecamatanCount)
-            .sort((a, b) => b[1] - a[1]);
+            .sort((a,b) => b[1] - a[1]);
 
         const kecamatanLabels =
             sortedKecamatan.map(item => item[0]);
@@ -376,17 +440,16 @@ async function loadDashboard() {
             kecamatanChart.destroy();
         }
 
-        /* RENDER BAR CHART */
         const kecamatanCtx =
             document.getElementById(
                 "kecamatanChart"
             );
 
+        /* RENDER CHART */
         kecamatanChart =
             new Chart(kecamatanCtx, {
 
             type: "bar",
-            
 
             data: {
 
@@ -398,42 +461,98 @@ async function loadDashboard() {
 
                     data: kecamatanData,
 
-                    borderRadius: 10,
+                    backgroundColor:
+                        "rgba(59,130,246,.85)",
 
-                    backgroundColor: "#3b82f6",
+                    borderColor:
+                        "#2563eb",
 
-                    hoverBackgroundColor: "#2563eb"
+                    borderWidth: 1,
+
+                    borderRadius: 12,
+
+                    borderSkipped: false,
+
+                    hoverBackgroundColor:
+                        "#2563eb"
                 }]
             },
 
             options: {
 
-                indexAxis: "y",
-
                 responsive: true,
 
                 maintainAspectRatio: false,
 
+                animation:{
+                    duration:1200
+                },
+
                 plugins: {
 
-                    legend: {
-                        display: false
+                    legend:{
+                        display:false
+                    },
+
+                    tooltip:{
+                        backgroundColor:"#0f172a",
+                        titleColor:"#fff",
+                        bodyColor:"#fff",
+                        padding:12,
+                        cornerRadius:10
+                    },
+
+                    datalabels:{
+
+                        anchor:"end",
+
+                        align:"top",
+
+                        color:"#0f172a",
+
+                        font:{
+                            size:12,
+                            weight:"bold"
+                        }
                     }
                 },
 
-                scales: {
+                scales:{
 
-                    x: {
+                    x:{
 
-                        beginAtZero: true,
+                        grid:{
+                            display:false
+                        },
 
-                        ticks: {
+                        ticks:{
 
-                            stepSize: 1
+                            color:"#475569",
+
+                            maxRotation:45,
+                            minRotation:45
+                        }
+                    },
+
+                    y:{
+
+                        beginAtZero:true,
+
+                        grid:{
+                            color:"#e2e8f0"
+                        },
+
+                        ticks:{
+                            stepSize:1,
+                            color:"#475569"
                         }
                     }
                 }
-            }
+            },
+
+            plugins:[
+                ChartDataLabels
+            ]
         });
 
     } catch (error) {
@@ -614,7 +733,13 @@ function renderAlertData(data){
                     </div>
 
                     <div class="alert-missing">
-                        - ${item.kurang.join(", ")}
+
+                        ${item.kurang.map(field => `
+                            <span class="alert-tag">
+                                ${field}
+                            </span>
+                        `).join("")}
+
                     </div>
 
                 </div>
@@ -661,6 +786,227 @@ function timeAgo(dateString){
     }
 
     return `${days} hari lalu`;
+}
+
+/* =========================
+DONUT CENTER TEXT
+========================= */
+const centerTextPlugin = {
+    id: "centerText",
+
+    beforeDraw(chart) {
+
+        const { width, height, ctx } = chart;
+
+        const total =
+            chart.data.datasets[0].data
+            .reduce((a, b) => a + b, 0);
+
+        ctx.save();
+
+        ctx.font = "bold 32px Inter";
+        ctx.fillStyle = "#0f172a";
+
+        ctx.fillText(
+            total,
+            width / 2,
+            height / 2 - 8
+        );
+
+        ctx.font = "600 14px Inter";
+        ctx.fillStyle = "#64748b";
+
+        ctx.fillText(
+            "BUMDES",
+            width / 2,
+            height / 2 + 20
+        );
+
+        ctx.restore();
+    }
+};
+
+/* =========================
+GENERATE COLOR
+========================= */
+function generateColors(total){
+
+    const colors = [];
+
+    for(let i = 0; i < total; i++){
+
+        colors.push(
+            `hsl(${(i * 360) / total}, 70%, 55%)`
+        );
+    }
+
+    return colors;
+}
+
+/* =========================
+CREATE DONUT CHART
+========================= */
+function createDonutChart(
+    canvasId,
+    labels,
+    values,
+    oldChart
+){
+
+    if(oldChart){
+        oldChart.destroy();
+    }
+
+    const colors =
+        generateColors(labels.length);
+
+    return new Chart(
+        document.getElementById(canvasId),
+        {
+            type: "pie",
+
+            data: {
+                labels: labels,
+
+                datasets: [{
+                    data: values,
+
+                    backgroundColor:
+                        colors,
+
+                    borderColor:
+                        "#fff",
+
+                    borderWidth: 2
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+
+                        position: "right",
+
+                        labels: {
+
+                            usePointStyle: true,
+
+                            pointStyle: "circle",
+
+                            padding: 18,
+
+                            generateLabels(chart){
+
+                                const data =
+                                    chart.data.datasets[0].data;
+
+                                const total =
+                                    data.reduce(
+                                        (a,b)=>a+b,
+                                        0
+                                    );
+
+                                return chart.data.labels.map(
+                                    (label,index)=>{
+
+                                        const value =
+                                            data[index];
+
+                                        const persen =
+                                            (
+                                                value / total * 100
+                                            ).toFixed(1);
+
+                                        return {
+
+                                            text:
+                                                `${label} (${persen}%)`,
+
+                                            fillStyle:
+                                                chart.data.datasets[0]
+                                                .backgroundColor[index],
+
+                                            hidden:false,
+
+                                            index:index
+                                        };
+                                    }
+                                );
+                            }
+                        }
+                    },
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label(context){
+
+                                const total =
+                                    context.dataset.data
+                                    .reduce(
+                                        (a,b)=>a+b,
+                                        0
+                                    );
+
+                                const value =
+                                    context.raw;
+
+                                const persen =
+                                    (
+                                        value / total * 100
+                                    ).toFixed(1);
+
+                                return `${context.label}: ${value} (${persen}%)`;
+                            }
+                        }
+                    },
+
+                    datalabels: {
+
+                        color: "#fff",
+
+                        font: {
+                            weight: "bold",
+                            size: 12
+                        },
+
+                        formatter: (
+                            value,
+                            context
+                        ) => {
+
+                            const total =
+                                context.chart
+                                .data.datasets[0]
+                                .data
+                                .reduce(
+                                    (a,b)=>a+b,
+                                    0
+                                );
+
+                            const persen =
+                                (
+                                    value / total * 100
+                                ).toFixed(1);
+
+                            return `${persen}%`;
+                        }
+                    }
+                }
+            },
+
+            plugins: [
+                ChartDataLabels
+            ]
+        }
+    );
 }
 
 /* INIT */

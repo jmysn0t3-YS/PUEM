@@ -23,7 +23,19 @@ const btnSaveAdmin =
 
 btnSaveAdmin.addEventListener(
     "click",
-    savePetugas
+    async function(){
+
+        const id =
+            document.getElementById(
+                "admin-id"
+            ).value;
+
+        if(id){
+            await updatePetugas();
+        }else{
+            await savePetugas();
+        }
+    }
 );
 
 let adminData = [];
@@ -105,8 +117,14 @@ async function loadPetugas(){
             result
         );
 
-        adminData =
-            result.results;
+        adminData = result.results.sort((a, b) => {
+            // 1. admin dulu (true = 0, false = 1)
+            if (a.role === "admin" && b.role !== "admin") return -1;
+            if (a.role !== "admin" && b.role === "admin") return 1;
+
+            // 2. kalau sama role → urutkan id
+            return a.id - b.id;
+        });
 
         renderTable(adminData);
 
@@ -164,21 +182,25 @@ function renderTable(data){
                 </td>
 
                 <td>
+                    <div class="action-buttons">
 
-                    <button
-                        class="btn-icon edit"
-                        onclick="editPetugas(${item.id})"
-                    >
-                        <i class="ri-edit-line"></i>
-                    </button>
+                        <button
+                            class="btn warning"
+                            onclick="editPetugas(${item.id})"
+                        >
+                            <i class="ri-edit-line"></i>
+                            Edit
+                        </button>
 
-                    <button
-                        class="btn-icon delete"
-                        onclick="hapusPetugas(${item.id})"
-                    >
-                        <i class="ri-delete-bin-line"></i>
-                    </button>
+                        <button
+                            class="btn danger"
+                            onclick="hapusPetugas(${item.id})"
+                        >
+                            <i class="ri-delete-bin-line"></i>
+                            Hapus
+                        </button>
 
+                    </div>
                 </td>
 
             </tr>
@@ -189,87 +211,109 @@ function renderTable(data){
 /* =========================
    SAVE 
 ========================= */
-async function savePetugas(){
+async function savePetugas() {
 
     const username =
-        document.getElementById(
-            "admin-username"
-        ).value.trim();
+        document.getElementById("admin-username").value.trim();
 
     const password =
-        document.getElementById(
-            "admin-password"
-        ).value.trim();
+        document.getElementById("admin-password").value.trim();
 
     const role =
-        document.getElementById(
-            "admin-role"
-        ).value;
+        document.getElementById("admin-role").value;
 
-    if(!username || !password){
+    if (!username || !password) {
 
-        alert(
-            "Username dan password wajib diisi"
-        );
+        Swal.fire({
+            title: "Validasi",
+            text: "Username dan password wajib diisi",
+            icon: "warning"
+        });
 
         return;
     }
 
-    try{
+    try {
 
-        const response =
-            await fetch(
-                `${BASE_URL}/accounts/users/`,
-                {
-                    method:"POST",
+    const confirm = await Swal.fire({
+        title: "Tambah Petugas?",
+        text: "Pastikan data sudah benar sebelum disimpan",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya, simpan",
+        cancelButtonText: "Batal"
+    });
 
-                    headers:{
-                        "Content-Type":
-                            "application/json",
+    if (!confirm.isConfirmed) return;
 
-                        Authorization:
-                            `Bearer ${getAccessToken()}`
-                    },
-
-                    body:JSON.stringify({
-                        username,
-                        password,
-                        role
-                    })
-                }
-            );
-
-        const result =
-            await response.json();
-
-        if(!response.ok){
-
-            console.log(result);
-
-            throw new Error(
-                "Gagal menambah petugas"
-            );
+    // =========================
+    // LOADING
+    // =========================
+    Swal.fire({
+        title: "Menyimpan data...",
+        text: "Harap tunggu",
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
         }
+    });
 
-        alert(
-            "Petugas berhasil ditambahkan"
+    const response =
+        await fetch(
+            `${BASE_URL}/accounts/users/`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${getAccessToken()}`
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                    role
+                })
+            }
         );
 
-        clearForm();
+    const result = await response.json();
 
-        closeModal(
-            "admin-modal"
-        );
+    if (!response.ok) {
 
-        loadPetugas();
+        console.log(result);
 
-    }catch(error){
+        Swal.fire({
+            title: "Gagal!",
+            text: result?.detail || "Gagal menambah petugas",
+            icon: "error"
+        });
+
+        return;
+    }
+
+    // =========================
+    // SUCCESS
+    // =========================
+    Swal.fire({
+        title: "Berhasil!",
+        text: "Petugas berhasil ditambahkan",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false
+    });
+
+    clearForm();
+    closeModal("admin-modal");
+    loadPetugas();
+
+    } catch (error) {
 
         console.error(error);
 
-        alert(
-            "Gagal menambah petugas"
-        );
+        Swal.fire({
+            title: "Error!",
+            text: "Terjadi kesalahan pada server",
+            icon: "error"
+        });
     }
 }
 
@@ -308,12 +352,20 @@ searchInput.addEventListener(
             .toLowerCase();
 
         const filtered =
-            adminData.filter(
-                item =>
+            adminData.filter(item => {
+
+                const usernameMatch =
                     item.username
-                    .toLowerCase()
-                    .includes(keyword)
-            );
+                        .toLowerCase()
+                        .includes(keyword);
+
+                const roleMatch =
+                    item.role
+                        .toLowerCase()
+                        .includes(keyword);
+
+                return usernameMatch || roleMatch;
+            });
 
         renderTable(filtered);
     }
@@ -327,8 +379,7 @@ function(id){
 
     const data =
         adminData.find(
-            item =>
-                item.id === id
+            item => item.id === id
         );
 
     if(!data) return;
@@ -354,56 +405,191 @@ function(id){
     ).textContent =
         "Edit Petugas";
 
+    document.getElementById(
+        "btn-save-admin"
+    ).textContent =
+        "Update";
+
     openAdminModal();
 };
+async function updatePetugas(){
 
-/* =========================
-   DELETE
-========================= */
-window.hapusPetugas =
-async function(id){
+    const id =
+        document.getElementById(
+            "admin-id"
+        ).value;
 
-    const konfirmasi =
-        confirm(
-            "Hapus petugas ini?"
-        );
+    const username =
+        document.getElementById(
+            "admin-username"
+        ).value.trim();
 
-    if(!konfirmasi) return;
+    const password =
+        document.getElementById(
+            "admin-password"
+        ).value.trim();
+
+    const role =
+        document.getElementById(
+            "admin-role"
+        ).value;
+
+    if(!username){
+
+        return Swal.fire({
+            title:"Validasi",
+            text:"Username wajib diisi",
+            icon:"warning"
+        });
+    }
 
     try{
 
-        const token =
-            localStorage.getItem(
-                "access"
-            );
+        const confirm =
+            await Swal.fire({
+                title:"Update Petugas?",
+                text:"Data akan diperbarui",
+                icon:"question",
+                showCancelButton:true,
+                confirmButtonText:"Ya, update",
+                cancelButtonText:"Batal"
+            });
+
+        if(!confirm.isConfirmed) return;
+
+        Swal.fire({
+            title:"Mengupdate data...",
+            allowOutsideClick:false,
+            didOpen:()=>{
+                Swal.showLoading();
+            }
+        });
+
+        const payload = {
+            username,
+            role
+        };
+
+        if(password){
+            payload.password = password;
+        }
 
         const response =
             await fetch(
                 `${BASE_URL}/accounts/users/${id}/`,
                 {
-                    method:"DELETE",
-
+                    method:"PATCH",
                     headers:{
+                        "Content-Type":"application/json",
                         Authorization:
-                            `Bearer ${token}`
-                    }
+                            `Bearer ${getAccessToken()}`
+                    },
+                    body:JSON.stringify(payload)
                 }
             );
 
+        let result = {};
+
+        try{
+            result = await response.json();
+        }catch(e){}
+
         if(!response.ok){
-            throw new Error();
+
+            console.log(result);
+
+            return Swal.fire({
+                title:"Gagal!",
+                text:
+                    result?.detail ||
+                    "Gagal update petugas",
+                icon:"error"
+            });
         }
 
-        loadPetugas();
+        Swal.fire({
+            title:"Berhasil!",
+            text:"Petugas berhasil diperbarui",
+            icon:"success",
+            timer:1500,
+            showConfirmButton:false
+        });
+
+        closeModal("admin-modal");
+
+        await loadPetugas();
 
     }catch(error){
 
-        alert(
-            "Gagal menghapus data"
+        console.error(error);
+
+        Swal.fire({
+            title:"Error!",
+            text:"Terjadi kesalahan server",
+            icon:"error"
+        });
+    }
+}
+/* =========================
+   DELETE
+========================= */
+window.hapusPetugas = async function (id) {
+
+    const confirm = await Swal.fire({
+        title: "Hapus Petugas?",
+        text: "Data tidak bisa dikembalikan",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, hapus",
+        cancelButtonText: "Batal"
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    try {
+
+        Swal.fire({
+            title: "Menghapus...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        const token = localStorage.getItem("access");
+
+        const response = await fetch(
+            `${BASE_URL}/accounts/users/${id}/`,
+            {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
         );
+
+        if (!response.ok) {
+
+            throw new Error();
+        }
+
+        Swal.fire({
+            title: "Berhasil!",
+            text: "Petugas berhasil dihapus",
+            icon: "success",
+            timer: 1500,
+            showConfirmButton: false
+        });
+
+        loadPetugas();
+
+    } catch (error) {
+
+        Swal.fire({
+            title: "Gagal!",
+            text: "Tidak bisa menghapus data",
+            icon: "error"
+        });
     }
 };
-
 /* =========================
    MODAL
 ========================= */
