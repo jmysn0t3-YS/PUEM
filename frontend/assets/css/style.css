@@ -366,28 +366,31 @@ FOOTER
 ========================= */
 @media (max-width: 768px) {
 
-    .sidebar {
+    .sidebar{
         position: fixed;
         left: -260px;
         top: 0;
         height: 100%;
+        width: 260px;
         z-index: 1000;
-
         transition: 0.3s ease;
     }
 
-    .sidebar.show {
+    /* SAAT OPEN (JS toggle hide) */
+    .sidebar.hide{
         left: 0;
     }
 
-    /* overlay biar lebih modern */
-    .sidebar.show::before {
-        content: "";
+    /* overlay saat terbuka */
+    .sidebar.hide::after{
+        content:"";
         position: fixed;
         inset: 0;
         background: rgba(0,0,0,0.4);
         z-index: -1;
     }
+
+
 
     /* MAIN */
     .main-wrapper{
