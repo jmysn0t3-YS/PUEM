@@ -1017,3 +1017,23 @@ td:last-child{
         min-width: unset;
     }
 }
+
+/* DETAIL MODAL */
+#detail-modal{
+    z-index: 999;
+}
+
+/* EDIT / TAMBAH BUMDES */
+#bumdes-modal{
+    z-index: 1100;
+}
+
+/* MODAL TAMBAH SEKTOR */
+#modal-tambah-sektor{
+    z-index: 1200;
+}
+
+/* MODAL TAMBAH JENIS */
+#modal-tambah-jenis{
+    z-index: 1300;
+}
