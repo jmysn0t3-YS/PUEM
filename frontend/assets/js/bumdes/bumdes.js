@@ -775,15 +775,47 @@ async function saveJenisBaru(){
         // update options TomSelect TANPA destroy
         jenisSelect.clearOptions();
 
-        const data = await apiFetch("/atribut/jenis-usaha/");
-        const results = data.results || data;
+        const sektorIds = [].concat(sektorSelect.getValue());
 
-        results.forEach(item => {
-            jenisSelect.addOption({
-                value: item.id,
-                text: item.jenis
-            });
-        });
+            // ambil ulang hanya berdasarkan sektor yang sedang aktif di form
+            if (sektorIds.length) {
+
+                const requests = sektorIds.map(id =>
+                    apiFetch(`/atribut/jenis-usaha/?sektor=${id}`)
+                );
+
+                const responses = await Promise.all(requests);
+
+                const all = [];
+
+                responses.forEach(res => {
+                    const results = res.results || res;
+                    all.push(...results);
+                });
+
+                // reset options biar tidak numpuk
+                jenisSelect.clearOptions();
+
+                const unique = new Map();
+
+                all.forEach(item => {
+                    if (!unique.has(item.id)) {
+                        unique.set(item.id, item);
+                    }
+                });
+
+                unique.forEach(item => {
+                    jenisSelect.addOption({
+                        value: item.id,
+                        text: item.jenis
+                    });
+                });
+
+            } else {
+                // 🔥 INI PENTING: jangan load semua data
+                jenisSelect.clearOptions();
+                jenisSelect.clear();
+            }
 
         // auto select item baru
         jenisSelect.addItem(response.id);
