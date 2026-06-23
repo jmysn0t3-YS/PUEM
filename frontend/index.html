@@ -410,15 +410,32 @@ logoutBtn.addEventListener(
 
         e.preventDefault();
 
-        const confirmLogout =
-            confirm(
-                "Apakah yakin ingin keluar?"
-            );
+        Swal.fire({
+            title: "Konfirmasi Logout",
+            text: "Apakah Anda yakin ingin keluar dari sistem?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#2563eb",
+            cancelButtonColor: "#ef4444",
+            confirmButtonText: "Ya, Logout",
+            cancelButtonText: "Batal"
+        }).then((result) => {
 
-        if(confirmLogout){
+            if(result.isConfirmed){
 
-            logout();
-        }
+                Swal.fire({
+                    icon: "success",
+                    title: "Logout Berhasil",
+                    text: "Anda akan diarahkan ke halaman login.",
+                    timer: 1200,
+                    showConfirmButton: false
+                });
+
+                setTimeout(() => {
+                    logout();
+                }, 1200);
+            }
+        });
     }
 );
 
