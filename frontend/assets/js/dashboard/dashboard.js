@@ -719,7 +719,7 @@ function renderAlertData(data){
     alertList.innerHTML = "";
 
     alertData
-        .slice(0,10)
+        .slice(0,5)
         .forEach(item => {
 
             alertList.innerHTML += `
