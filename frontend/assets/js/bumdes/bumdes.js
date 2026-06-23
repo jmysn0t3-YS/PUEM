@@ -1168,35 +1168,50 @@ window.openEdit = openEdit;
 
 async function setJenisOptionsBySektor(sektorIds){
 
-    const dataAll = [];
-
-    for(const id of sektorIds){
-
-        const res = await apiFetch(
-            `/atribut/jenis-usaha/?sektor=${id}`
-        );
-
-        const results = res.results || res;
-
-        dataAll.push(...results);
-    }
-
     jenisSelect.clearOptions();
 
-    const unique = new Map();
+    if(!sektorIds.length){
+        jenisSelect.disable();
+        return;
+    }
 
-    dataAll.forEach(item => {
-        if(!unique.has(item.id)){
-            unique.set(item.id, item);
-        }
-    });
+    jenisSelect.enable();
 
-    unique.forEach(item => {
-        jenisSelect.addOption({
-            value: item.id,
-            text: item.jenis
+    try {
+        const requests = sektorIds.map(id =>
+            apiFetch(`/atribut/jenis-usaha/?sektor=${id}`)
+        );
+
+        const responses = await Promise.all(requests);
+
+        const allData = [];
+
+        responses.forEach(res => {
+            const results = res.results || res;
+            allData.push(...results);
         });
-    });
+
+        // hapus duplikat
+        const unique = new Map();
+
+        allData.forEach(item => {
+            if(!unique.has(item.id)){
+                unique.set(item.id, item);
+            }
+        });
+
+        unique.forEach(item => {
+            jenisSelect.addOption({
+                value: item.id,
+                text: item.jenis
+            });
+        });
+
+        jenisSelect.refreshOptions(false);
+
+    } catch (error) {
+        console.log("Gagal load jenis", error);
+    }
 }
 /* =========================
    Haous
