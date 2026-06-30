@@ -190,28 +190,28 @@ async function loadDashboard() {
         const data =
             Object.values(peringkatCount);
         
+        const totalPeringkat =
+            data.reduce((a, b) => a + b, 0);
+
+        function persen(jumlah) {
+            if (totalPeringkat === 0) return "0.0";
+            return ((jumlah / totalPeringkat) * 100).toFixed(1);
+        }
+        
         /* =========================
         LEGEND TOTAL
         ========================= */
-        document.getElementById(
-            "maju-total"
-        ).textContent =
-            peringkatCount["Maju"] || 0;
+        document.getElementById("maju-total").textContent =
+            `${peringkatCount["Maju"] || 0} (${persen(peringkatCount["Maju"] || 0)}%)`;
 
-        document.getElementById(
-            "berkembang-total"
-        ).textContent =
-            peringkatCount["Berkembang"] || 0;
+        document.getElementById("berkembang-total").textContent =
+            `${peringkatCount["Berkembang"] || 0} (${persen(peringkatCount["Berkembang"] || 0)}%)`;
 
-        document.getElementById(
-            "pemula-total"
-        ).textContent =
-            peringkatCount["Pemula"] || 0;
+        document.getElementById("pemula-total").textContent =
+            `${peringkatCount["Pemula"] || 0} (${persen(peringkatCount["Pemula"] || 0)}%)`;
 
-        document.getElementById(
-            "perintis-total"
-        ).textContent =
-            peringkatCount["Perintis"] || 0;
+        document.getElementById("perintis-total").textContent =
+            `${peringkatCount["Perintis"] || 0} (${persen(peringkatCount["Perintis"] || 0)}%)`;
             
 
         /* =========================
@@ -311,25 +311,29 @@ async function loadDashboard() {
                     ========================= */
                     datalabels: {
 
-                        color: "#fff",
+                        color:"#fff",
 
-                        font: {
-                            weight: "bold",
-                            size: 14
+                        offset:4,
+
+                        clamp:true,
+
+                        clip:false,
+
+                        font:{
+                            weight:"bold",
+                            size:11
                         },
 
-                        formatter: (value, context) => {
+                        formatter(value, context){
 
-                            const total =
-                                context.chart.data.datasets[0]
-                                .data
-                                .reduce((a, b) => a + b, 0);
+                            const total = context.chart.data.datasets[0].data
+                                .reduce((a,b)=>a+b,0);
 
-                            const percentage =
-                                ((value / total) * 100)
-                                .toFixed(1);
+                            const persen = (value / total) * 100;
 
-                            return value + "\n" + percentage + "%";
+                            return persen >= 5
+                                ? `${persen.toFixed(1)}%`
+                                : "";
                         }
                     }
                 }
@@ -903,41 +907,31 @@ function createDonutChart(
 
                             generateLabels(chart){
 
-                                const data =
-                                    chart.data.datasets[0].data;
+                                const data = chart.data.datasets[0].data;
 
-                                const total =
-                                    data.reduce(
-                                        (a,b)=>a+b,
-                                        0
-                                    );
+                                const total = data.reduce((a,b)=>a+b,0);
 
-                                return chart.data.labels.map(
-                                    (label,index)=>{
+                                return chart.data.labels.map((label,index)=>{
 
-                                        const value =
-                                            data[index];
+                                    const value = data[index];
 
-                                        const persen =
-                                            (
-                                                value / total * 100
-                                            ).toFixed(1);
+                                    const persen = ((value / total) * 100).toFixed(1);
 
-                                        return {
+                                    return {
 
-                                            text:
-                                                `${label} (${persen}%)`,
+                                        text: `${label} • ${value} (${persen}%)`,
 
-                                            fillStyle:
-                                                chart.data.datasets[0]
-                                                .backgroundColor[index],
+                                        fillStyle: chart.data.datasets[0]
+                                            .backgroundColor[index],
 
-                                            hidden:false,
+                                        strokeStyle: chart.data.datasets[0]
+                                            .backgroundColor[index],
 
-                                            index:index
-                                        };
-                                    }
-                                );
+                                        hidden: false,
+
+                                        index
+                                    };
+                                });
                             }
                         }
                     },
@@ -972,31 +966,30 @@ function createDonutChart(
 
                         color: "#fff",
 
+                        offset: 4,
+
+                        clamp: true,
+
+                        clip: false,
+
                         font: {
                             weight: "bold",
-                            size: 12
+                            size: 11
                         },
 
-                        formatter: (
-                            value,
-                            context
-                        ) => {
+                        formatter(value, context){
 
-                            const total =
-                                context.chart
-                                .data.datasets[0]
-                                .data
-                                .reduce(
-                                    (a,b)=>a+b,
-                                    0
-                                );
+                            const total = context.chart.data.datasets[0].data
+                                .reduce((a,b)=>a+b,0);
 
-                            const persen =
-                                (
-                                    value / total * 100
-                                ).toFixed(1);
+                            const persen = (value / total) * 100;
 
-                            return `${persen}%`;
+                            // Hanya tampilkan jika >= 5%
+                            if (persen < 5) {
+                                return "";
+                            }
+
+                            return `${persen.toFixed(1)}%`;
                         }
                     }
                 }

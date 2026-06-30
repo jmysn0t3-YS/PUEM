@@ -1714,3 +1714,4 @@ function showToast(message, type = "success") {
     }, 3000);
 }
 init();
+
