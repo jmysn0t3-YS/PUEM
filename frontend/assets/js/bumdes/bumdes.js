@@ -391,21 +391,53 @@ async function loadKecamatan(){
         const results =
             data.results || data;
 
-        filterKecamatan.innerHTML =
-            `
+
+        /* =========================
+           FILTER TABEL
+        ========================= */
+
+        filterKecamatan.innerHTML = `
             <option value="">
                 Semua Kecamatan
             </option>
-            `;
+        `;
+
+
+        /* =========================
+           FORM BUMDES
+        ========================= */
+
+        const kecamatanBumdes =
+            document.getElementById(
+                "kc-bumdes"
+            );
+
+        kecamatanBumdes.innerHTML = `
+            <option value="">
+                Pilih Kecamatan
+            </option>
+        `;
+
 
         results.forEach(item => {
 
+            // Untuk filter tabel
             filterKecamatan.innerHTML += `
                 <option value="${item.id}">
                     ${item.nama_kec}
                 </option>
             `;
+
+
+            // Untuk form BUMDES
+            kecamatanBumdes.innerHTML += `
+                <option value="${item.id}">
+                    ${item.nama_kec}
+                </option>
+            `;
+
         });
+
 
     }catch(error){
 
@@ -413,6 +445,7 @@ async function loadKecamatan(){
             "Gagal load kecamatan",
             error
         );
+
     }
 }
 
@@ -425,16 +458,16 @@ filterKecamatan.addEventListener(
 );
 
 /* =========================
-   Load DEsa
+   LOAD DESA BERDASARKAN KECAMATAN
 ========================= */
-async function loadDesa(){
 
-    try{
+async function loadDesa(kecamatanId = "") {
 
-        const data =
-            await apiFetch(
-                "/wilayah/desa/"
-            );
+    try {
+
+        const data = await apiFetch(
+            "/wilayah/desa/"
+        );
 
         const results =
             data.results || data;
@@ -446,27 +479,72 @@ async function loadDesa(){
 
         desaSelect.innerHTML = `
             <option value="">
-                Pilih Desa
+                ${
+                    kecamatanId
+                        ? "Pilih Desa"
+                        : "Pilih Kecamatan Terlebih Dahulu"
+                }
             </option>
         `;
 
-        results.forEach(item => {
+        // Kecamatan belum dipilih
+        if (!kecamatanId) {
+
+            desaSelect.disabled = true;
+
+            return;
+        }
+
+        // Filter desa berdasarkan kecamatan
+        const filteredDesa =
+            results.filter(
+                item =>
+                    String(item.kecamatan) ===
+                    String(kecamatanId)
+            );
+
+        filteredDesa.forEach(item => {
 
             desaSelect.innerHTML += `
                 <option value="${item.id}">
                     ${item.nama_desa}
                 </option>
             `;
+
         });
 
-    }catch(error){
+        desaSelect.disabled = false;
+
+    } catch(error) {
 
         console.log(
             "Gagal load desa",
             error
         );
+
     }
 }
+
+/* =========================
+   EVENT KECAMATAN BUMDES
+========================= */
+
+const kecamatanBumdes =
+    document.getElementById(
+        "kc-bumdes"
+    );
+
+kecamatanBumdes.addEventListener(
+    "change",
+    function() {
+
+        const kecamatanId =
+            this.value;
+
+        loadDesa(kecamatanId);
+
+    }
+);
 
 /* =========================
    STATUS
@@ -1095,8 +1173,20 @@ function resetForm(){
     document.getElementById("nohp-bumdes").value = "";
     document.getElementById("email-bumdes").value = "";
 
-    // GANTI INI
-    desaSelect.clear();
+    document.getElementById("kc-bumdes").value = "";
+
+        const desa =
+            document.getElementById(
+                "desa-bumdes"
+            );
+
+        desa.innerHTML = `
+            <option value="">
+                Pilih Kecamatan Terlebih Dahulu
+            </option>
+        `;
+
+        desa.disabled = true;
 
     document.getElementById("status-bumdes").value = "";
     document.getElementById("peringkat-bumdes").value = "";
@@ -1632,21 +1722,11 @@ async function init(){
 
     await loadKecamatan();
 
-    await loadDesa();
-
     await loadStatus();
 
     await loadPeringkat();
 
     await loadSektor();
-
-    // DESA
-     desaSelect = new TomSelect("#desa-bumdes", {
-        create: false,
-        placeholder: "Cari Desa...",
-        maxOptions: 1000
-    });
-
     // SEKTOR
     sektorSelect =
         new TomSelect(
